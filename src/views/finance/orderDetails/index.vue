@@ -52,6 +52,7 @@
 
 <script>
 import * as delt from "@/api/finance";
+import * as filter from "@/Utils/validate";
 const log = console.log.bind(console)
 import Vue from "vue";
 export default {
@@ -76,42 +77,6 @@ export default {
         this.pickUp();
     },
       methods: {
-          //支付状态
-    stateFilter(value) {
-      var dataKey = {
-        "0": "成功",
-        "1": "失败",
-        "2": "未支付",
-        "3": "交易关闭"
-      };
-      var newValue = dataKey[value];
-      return newValue;
-    },
-    //支付方式
-    paymentFilter(value) {
-      var dataKey = {
-        "1": "支付宝支付",
-        "2": "微信支付"
-      };
-      var newValue = dataKey[value];
-      return newValue;
-    },
-    //订单类型
-    typeFilter(value) {
-      var dataKey = {
-        "1": "写信",
-        "2": "会员",
-        "3": "礼物",
-        "4": "提现"
-      };
-      var newValue = dataKey[value];
-      return newValue;
-    },
-    //交易金额
-    dealMoney(value) {
-      var newValue = value / 10 / 10;
-      return newValue;
-    },
           pickUp() {
             var that = this
             var num = localStorage.getItem('num')
@@ -131,12 +96,12 @@ export default {
                 var totalMoneyValue = data.totalMoney; //交易金额
                 var payMoneyValue = data.payMoney; //付款金额
                 var itemPriceValue = obj.itemPrice; //产品单价                                var playValue = that.stateFilter(payStatusValue);
-                var payStatus = that.stateFilter(payStatusValue);
-                var payMode = that.paymentFilter(payModeValue);
-                var payType = that.typeFilter(payTypeValue);
-                var totalMoney = that.dealMoney(totalMoneyValue);
-                var itemPrice = that.dealMoney(itemPriceValue);
-                var payMoney = that.dealMoney(payMoneyValue);
+                var payStatus = filter.stateFilter(payStatusValue);
+                var payMode = filter.paymentFilter(payModeValue);
+                var payType = filter.typeFilter(payTypeValue);
+                var totalMoney = filter.dealMoney(totalMoneyValue);
+                var itemPrice = filter.dealMoney(itemPriceValue);
+                var payMoney = filter.dealMoney(payMoneyValue);
                 Vue.set(data, "payMoney", payMoney);
                 Vue.set(data, "payMode", payMode);
                 Vue.set(data, "payStatus", payStatus);

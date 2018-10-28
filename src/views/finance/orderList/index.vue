@@ -1,43 +1,6 @@
 <template>
     <div class="user_name_list_order">
         <div class="user_name_list_center">
-            <!-- <div class="user_name_list_case">
-                <div class="user_name_list_case_top">
-                    <div>
-                        <el-cascader size="large" :options="optionss" v-model="selectedOptions" @change="handleChange">
-    
-                        </el-cascader>
-                    </div>
-                    <div>
-                        <el-input v-model="input" placeholder="请输入用户名"></el-input>
-    
-                    </div>
-                    <div>
-                        <el-input v-model="input" placeholder="请输入手机号"></el-input>
-    
-                    </div>
-                    <div>
-                        <el-input v-model="input" placeholder="请输入姓名"></el-input>
-                    </div>
-    
-                </div>
-                <div class="user_name_list_case_bottom">
-                    <div class="register_buttoon">
-                        注册时间:
-                    </div>
-                    <div>
-                        <el-date-picker v-model="value6" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-                        </el-date-picker>
-                    </div>
-    
-                    <div>
-                        <el-button type="primary" plain>查询</el-button>
-                    </div>
-                    <div>
-                        <el-button type="primary" plain>导出EXCEL</el-button>
-                    </div>
-                </div>
-            </div> -->
     <div class="user_name_list_case">
       <div class="user_name_list_case_top">
         <div class="user_name_list_flex">
@@ -153,13 +116,14 @@
 <script>
 import { provinceAndCityData } from "element-china-area-data";
 import { orderList, orderQuery, OrderDetails } from "@/api/finance";
+import * as filter from "@/Utils/validate";
 import Vue from "vue";
 const log = console.log.bind(console);
 export default {
   data() {
     return {
-      page: 1,//当前页面
-      pages: 0,//总条数
+      page: 1, //当前页面
+      pages: 0, //总条数
       optionss: provinceAndCityData,
       selectedOptions: [],
       value6: "",
@@ -168,7 +132,7 @@ export default {
       valu: "",
       date: [],
       information: {
-          orderNo: '',
+        orderNo: "",
         nickName: "",
         userName: "",
         phone: "",
@@ -176,7 +140,7 @@ export default {
         orderNo: "",
         beginTime: "",
         endTime: "",
-        pageNo: 1,
+        pageNo: 1
       }, //查询信息
       options: [
         {
@@ -203,80 +167,46 @@ export default {
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-        var that = this
+      var that = this;
       console.log(`当前页: ${val}`);
-      that.page = val
-      log(that.page,'第几页')
-      that.information.pageNo = val
-      log(that.information.pageNo,'更新页码成功')
-      that.OrderList()
-    },
-
-    //支付状态
-    stateFilter(value) {
-      var dataKey = {
-        "0": "成功",
-        "1": "失败",
-        "2": "未支付",
-        "3": "交易关闭"
-      };
-      var newValue = dataKey[value];
-      return newValue;
-    },
-    //支付方式
-    paymentFilter(value) {
-      var dataKey = {
-        "1": "支付宝支付",
-        "2": "微信支付"
-      };
-      var newValue = dataKey[value];
-      return newValue;
-    },
-    //订单类型
-    typeFilter(value) {
-      var dataKey = {
-        "1": "写信",
-        "2": "会员",
-        "3": "礼物",
-        "4": "提现"
-      };
-      var newValue = dataKey[value];
-      return newValue;
+      that.page = val;
+      log(that.page, "第几页");
+      that.information.pageNo = val;
+      log(that.information.pageNo, "更新页码成功");
+      that.OrderList();
     },
     daaa() {
       var that = this;
       var date = that.date;
       var load = [];
       if (date != null) {
-          
-      
-      for (var i = 0; i < date.length; i++) {
-        var e = date[i];
+        for (var i = 0; i < date.length; i++) {
+          var e = date[i];
 
-        var data = new Date(e);
-        var y = e.getFullYear();
-        var m = e.getMonth() + 1;
-        // m = m < 10 ? '0' + m : m;
-        var d = e.getDate();
-        // d = d < 10 ? ('0' + d) : d;
-        var newDate = y + "-" + m + "-" + d;
-        log(newDate, "查询数据");
-        load.push(newDate);
+          var data = new Date(e);
+          var y = e.getFullYear();
+          var m = e.getMonth() + 1;
+          // m = m < 10 ? '0' + m : m;
+          var d = e.getDate();
+          // d = d < 10 ? ('0' + d) : d;
+          var newDate = y + "-" + m + "-" + d;
+          log(newDate, "查询数据");
+          load.push(newDate);
+        }
+        that.information.beginTime = load[0];
+        that.information.endTime = load[1];
+        log(that.information.beginTime, that.information.endTime, "骑士结束");
+        var information = that.information;
+        log(information, "提交的信息");
       }
-      that.information.beginTime = load[0];
-      that.information.endTime = load[1];
-      log(that.information.beginTime, that.information.endTime, "骑士结束");
-      var information = that.information;
-      log(information,'提交的信息')
-    }
-    that.Order(information);
+      that.Order(information);
       return;
     },
-    //交易金额
-    dealMoney(value) {
-      var newValue = value / 10 / 10;
-      return newValue;
-    },
+    // //交易金额
+    // dealMoney(value) {
+    //   var newValue = value / 10 / 10;
+    //   return newValue;
+    // },
     //获取列表
     OrderList() {
       var that = this;
@@ -284,7 +214,7 @@ export default {
         const data = response.data.data;
         console.log(data, "参数聚合");
         // that.tableData = data.list;
-        that.pages = data.total
+        that.pages = data.total;
         var dataList = data.list;
         var load = [];
         for (var i = 0; i < dataList.length; i++) {
@@ -292,10 +222,10 @@ export default {
           var payModeValue = dataList[i].payMode; //支付方式
           var payTypeValue = dataList[i].payType; //订单类型
           var orderMoneyValue = dataList[i].orderMoney; //交易金额
-          var playValue = that.stateFilter(payStatusValue);
-          var payMode = that.paymentFilter(payModeValue);
-          var payType = that.typeFilter(payTypeValue);
-          var orderMoney = that.dealMoney(orderMoneyValue);
+          var playValue = filter.stateFilter(payStatusValue);
+          var payMode = filter.paymentFilter(payModeValue);
+          var payType = filter.typeFilter(payTypeValue);
+          var orderMoney = filter.dealMoney(orderMoneyValue);
           Vue.set(dataList[i], "payMode", payMode);
           Vue.set(dataList[i], "payStatus", playValue);
           Vue.set(dataList[i], "payType", payType);
@@ -311,53 +241,52 @@ export default {
     // 查询列表
     Order(information) {
       var that = this;
-      log(information,'有什么数据')
-      orderQuery(information)
-      .then(response => {
+      log(information, "有什么数据");
+      orderQuery(information).then(response => {
         log(information, "请求数据");
         const data = response.data;
         console.log(data, "参数聚合");
-        that.pages = data.data.total
-        log(that.pages,'总条数')
+        that.pages = data.data.total;
+        log(that.pages, "总条数");
         that.tableData = data.data.list;
         var dataList = that.tableData;
         log(dataList, "查询列表");
         var load = [];
         for (var i = 0; i < dataList.length; i++) {
-            var payStatusValue = dataList[i].payStatus;//支付状态
-            var payModeValue = dataList[i].payMode;//支付方式
-            var payTypeValue = dataList[i].payType;//订单类型
-            var orderMoneyValue = dataList[i].orderMoney;//交易金额
-            var playValue = that.stateFilter(payStatusValue)
-            var payMode = that.paymentFilter(payModeValue)
-            var payType = that.typeFilter(payTypeValue)
-            var orderMoney = that.dealMoney(orderMoneyValue)
-            Vue.set(dataList[i], 'payMode', payMode)
-            Vue.set(dataList[i], 'payStatus', playValue)
-            Vue.set(dataList[i], 'payType', payType)
-            Vue.set(dataList[i], 'orderMoney', orderMoney)
-            load.push(1)
+          var payStatusValue = dataList[i].payStatus; //支付状态
+          var payModeValue = dataList[i].payMode; //支付方式
+          var payTypeValue = dataList[i].payType; //订单类型
+          var orderMoneyValue = dataList[i].orderMoney; //交易金额
+          var playValue = filter.stateFilter(payStatusValue);
+          var payMode = filter.paymentFilter(payModeValue);
+          var payType = filter.typeFilter(payTypeValue);
+          var orderMoney = filter.dealMoney(orderMoneyValue);
+          Vue.set(dataList[i], "payMode", payMode);
+          Vue.set(dataList[i], "payStatus", playValue);
+          Vue.set(dataList[i], "payType", payType);
+          Vue.set(dataList[i], "orderMoney", orderMoney);
+          load.push(1);
         }
         if (load.length == dataList.length) {
-            log(dataList,'新返回的数据')
-            that.tableData = dataList
+          log(dataList, "新返回的数据");
+          that.tableData = dataList;
         }
       });
     },
     //订单详情
     OrderDetails(row) {
-        var that = this        
-        var data = that.tableData[row]
-        var orderNo = data.orderNo
-        var obj = {orderNo: orderNo}
-        log(obj,'订单号')
-        localStorage.setItem('num',orderNo ) //本地保存订单
-        that.$router.push({
-            path: 'finance/orderDetails',
-            query: {
-                'paperId':'12'
-            }
-        })
+      var that = this;
+      var data = that.tableData[row];
+      var orderNo = data.orderNo;
+      var obj = { orderNo: orderNo };
+      log(obj, "订单号");
+      localStorage.setItem("num", orderNo); //本地保存订单
+      that.$router.push({
+        path: "finance/orderDetails",
+        query: {
+          paperId: "12"
+        }
+      });
     }
   }
 };
