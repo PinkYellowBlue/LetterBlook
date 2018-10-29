@@ -150,8 +150,8 @@
 export default {
   data() {
     return {
-        input: '',
-        password: '',
+      input: "",
+      password: "",
       currentPage4: "2",
       value_date: "",
       tableData: [

@@ -116,7 +116,7 @@
 <script>
 import { provinceAndCityData } from "element-china-area-data";
 import { orderList, orderQuery, OrderDetails } from "@/api/finance";
-import * as filter from "@/Utils/validate";
+import * as filter from "@/utils/filter";
 import Vue from "vue";
 const log = console.log.bind(console);
 export default {
@@ -202,11 +202,7 @@ export default {
       that.Order(information);
       return;
     },
-    // //交易金额
-    // dealMoney(value) {
-    //   var newValue = value / 10 / 10;
-    //   return newValue;
-    // },
+    
     //获取列表
     OrderList() {
       var that = this;
@@ -222,14 +218,17 @@ export default {
           var payModeValue = dataList[i].payMode; //支付方式
           var payTypeValue = dataList[i].payType; //订单类型
           var orderMoneyValue = dataList[i].orderMoney; //交易金额
+          log(orderMoneyValue,'值%%%')
           var playValue = filter.stateFilter(payStatusValue);
           var payMode = filter.paymentFilter(payModeValue);
           var payType = filter.typeFilter(payTypeValue);
-          var orderMoney = filter.dealMoney(orderMoneyValue);
+          var Money = filter.dealMoney(orderMoneyValue);
+          // var monenyN = orderMoney+'.00'+'元'
+          log(Money,'加单位')
           Vue.set(dataList[i], "payMode", payMode);
           Vue.set(dataList[i], "payStatus", playValue);
           Vue.set(dataList[i], "payType", payType);
-          Vue.set(dataList[i], "orderMoney", orderMoney);
+          Vue.set(dataList[i], "orderMoney", Money);
           load.push(1);
         }
         if (load.length == dataList.length) {

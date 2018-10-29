@@ -4,7 +4,7 @@ import Qs from 'qs'
 //列表数据
 export function userList(information) {
   return request({
-    url: 'cms/order/getOrderList.shtml',
+    url: 'cms/user/findAll',
     method: 'post',
     data: Qs.stringify(information)
   })

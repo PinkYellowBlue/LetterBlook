@@ -107,7 +107,7 @@ export const constantRouterMap = [
     path: '/finance',
     component: Layout,
     // redirect: '/dashboard',
-    name: 'finance',
+    name: 'order',
     meta: {
       title: '财务管理',
       icon: 'finance'
@@ -137,6 +137,7 @@ export const constantRouterMap = [
         path: 'orderDetails',
         name: 'orderDetails',
         component: () => import('@/views/finance/orderDetails/index'),
+         hidden: true,
         meta: { title: '订单详情', icon: 'ordermess' }
       },
       {

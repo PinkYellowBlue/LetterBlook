@@ -55,11 +55,11 @@
             </div>
         </div>
         <div class="user_dataails_bottom">
-            <div class="dataails_bottom_dynamic">
-                <div class="dynamic_number">动态 9527条</div>
+            <div class="dataails_bottom_dynamic" v-for="(item, index) in listDataails" :key="index">
+                <div class="dynamic_number">动态 {{item.total}}条</div>
                 <div class="bottom_dynamic_left">
                     <div class="dynamic_left_scllo">
-                        <div class="dynamic_left_list" v-for="(item, index) in listDataails" :key="index">
+                        <div class="dynamic_left_list">
                             <div class="dynamic_left_list_str">
                                 {{item.str}}
                             </div>

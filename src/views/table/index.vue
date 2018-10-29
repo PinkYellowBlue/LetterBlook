@@ -72,6 +72,9 @@
 </template>
 
 <script>
+import * as user from '@/api/user'
+// import func from './vue-temp/vue-editor-bridge';
+var log = console.log.bind(console)
   export default {
          data() {
         return {
@@ -169,15 +172,23 @@
           },]
         }
       },
+      created: function() {
+        this.filter()
+    },
        methods: {
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
+      },
+      filter() {
+        user.userList()
+        .then(response => {
+          log(response,'成功')
+        })
       }
     },
-   
   }
 </script>
 <style lang="scss" scoped>
