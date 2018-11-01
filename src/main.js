@@ -21,7 +21,7 @@ import '@/permission' // permission control
 Vue.use(ElementUI, { zhLocale },).use(VCharts)
 Vue.config.productionTip = false
 Vue.component(
-  'query-many', querymany
+  'query-many', querymany,
 )
 new Vue({
   el: '#app',

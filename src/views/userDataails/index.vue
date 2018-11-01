@@ -55,11 +55,11 @@
             </div>
         </div>
         <div class="user_dataails_bottom">
-            <div class="dataails_bottom_dynamic" v-for="(item, index) in listDataails" :key="index">
-                <div class="dynamic_number">动态 {{item.total}}条</div>
+            <div class="dataails_bottom_dynamic">
+                <div class="dynamic_number">动态 {{dynamicNumber}}条</div>
                 <div class="bottom_dynamic_left">
                     <div class="dynamic_left_scllo">
-                        <div class="dynamic_left_list">
+                        <div class="dynamic_left_list" v-for="(item, index) in listDataails" :key="index">
                             <div class="dynamic_left_list_str">
                                 {{item.str}}
                             </div>
@@ -127,7 +127,7 @@
 
 <script>
 const log = console.log.bind(console);
-import * as user from '@/api/user'
+import * as user from "@/api/user";
 export default {
   data() {
     return {
@@ -227,11 +227,13 @@ export default {
         }
       ],
       list: [],
+      dynamicNumber: '',
     };
   },
   created: function() {
-      this.userMessage()
-    this.FirendList()
+    this.userMessage();
+    this.DynamicList();
+    // this.FirendList();
   },
   methods: {
     handleSizeChange(val) {
@@ -267,24 +269,32 @@ export default {
       that.dialogVisible = false;
     },
     userMessage() {
-        var that = this
-        var id = {id: 44}
-        user.userdetails(id)
-        .then(response => {
-            log(response.data,'获取信息')
-            that.list.push(response.data.data)
-
-        })
+      var that = this;
+      var val = localStorage.getItem("id");
+      var id = { id: val };
+      user.userdetails(id).then(response => {
+        log(response.data, "获取信息");
+        that.list.push(response.data.data);
+      });
+    },
+    DynamicList() {
+      var that = this;
+      var val = localStorage.getItem("id");
+      var id = { userId: val };
+      user.dynamicList(id).then(response => {
+        log(response.data, "获取动态信息");
+        that.dynamicNumber = response.data.data.total
+      });
     },
     FirendList() {
         var that = this
-        var id = {userId: 54}
-        user.firendList(id)
-        .then(response => {
-            log(response.data,'获取动态信息')
-        })
+        var val = localStorage.getItem("id");
+        var id = { id: val };
+        user.firendList(id).then(response => {
+            log(response.data, "获取好友数量");
+            // that.dynamicNumber = response.data.data.total
+      });
     }
-
   }
 };
 </script>

@@ -4,7 +4,7 @@
       <div class="user_name_list_case_top">
         <div class="user_name_list_flex">
           <div><img src="../../assets/input/City.png" alt=""></div>
-          <el-cascader size="large" :options="optionss" v-model="selectedOptions" @change="handleChange">
+          <el-cascader size="large" :options="optionss" clearable v-model="selectedOptions" @change="handleChange" placeholder="请选择地址" >
           </el-cascader>
         </div>
         <div class="user_name_list_flex">
@@ -19,7 +19,7 @@
         </div>
         <div class="user_name_list_flex">
           <div><img src="../../assets/input/VIP.png" alt=""></div>
-          <el-select v-model="lookup.memberType" :placeholder=ss>
+          <el-select v-model="lookup.userType" :placeholder=ss clearable>
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
   
@@ -36,11 +36,13 @@
         <div class="list_case_bottom">
           <div class="list_case_date">注册时间:</div>
           <div>
-                        <el-date-picker
-                            v-model="lookup.createTime"
-                            type="date"
-                            placeholder="选择日期">
-                        </el-date-picker>
+                         <el-date-picker
+      v-model="date"
+      type="daterange"
+      range-separator="至"
+      start-placeholder="开始日期"
+      end-placeholder="结束日期">
+    </el-date-picker>
                         </div>
         </div>
         <div class="user_name_list_flex">
@@ -48,7 +50,7 @@
           <el-input resize="none" v-model="lookup.nickName" placeholder="请输入用户名"></el-input>
         </div>
         <div>
-          <el-button type="primary" plain @click="d">查询</el-button>
+          <el-button type="primary" plain  @click="queryUser">查询</el-button>
         </div>
         <div>
           <el-button type="primary" plain>导出EXCEL</el-button>
@@ -60,36 +62,45 @@
 
 <script>
 import { provinceAndCityData } from "element-china-area-data";
+import * as user from "@/api/user";
+import * as filter from "@/utils/filter";
+const log = console.log.bind(console);
 export default {
+  props: {
+    titlee: String,
+    required: true
+  },
   data() {
     return {
       optionss: provinceAndCityData,
       selectedOptions: [],
       ss: "选择",
       value6: "",
+      date: [],
       lookup: {
-          province: '', //省份
-          city: '',//城市
-          nickName: '',//昵称
-          phone: '',//手机号
-          memberType: '',//会员类型
-          userName: '',//真实姓名
-          createTime: '',//创建时间
-          endTime: '',//结束时间
+        provinceId: "", //省份
+        cityId: "", //城市
+        nickName: "", //昵称
+        phone: "", //手机号
+        userType: "", //会员类型
+        userName: "", //真实姓名
+        createTime: "", //创建时间
+        endTime: "", //结束时间
+        strNo: 1,
       },
       options: [
         {
-          value: "月卡",
+          value: 1,
           label: "月卡"
         },
         {
-          value: "季卡",
+          value: 2,
           label: "季卡"
         },
         {
-          value: "年卡",
+          value: 3,
           label: "年卡"
-        },
+        }
       ],
       value: "",
       valu: ""
@@ -97,13 +108,44 @@ export default {
   },
   methods: {
     handleChange(value) {
+      var that = this;
+      that.lookup.provinceId = value[0];
+      that.lookup.cityId = value[1];
       console.log(value, "数据是什么");
     },
     d() {
-        console.log(selectedOptions,'编码')
+      console.log(selectedOptions, "编码");
     },
-    pink() {
-        this.$emit('lookup', this.lookup)
+    // pink() {
+    //     var data = ['qwe']
+    //     this.$emit('lookup', data)
+    // },
+    queryUser() {
+      var that = this;
+      log(that.lookup, "请求数据");
+      log(this.titlee, "有没有传成功");
+      var d = that.date;
+      var p = true
+      var s = p
+        this.$emit("ok", s);
+      // var load = [];
+      if (d != null) {
+        var n = filter.dateFilter(d)
+        // load.push(n);
+        that.lookup.createTime = n[0];
+        that.lookup.endTime = n[1];
+        log(that.lookup.createTime, that.lookup.endTime, "骑士结束");
+        var val = that.lookup;
+        log(val, "提交的信息");
+      }   
+        var s = that.lookup
+        this.$emit("look", s);
+      var url = that.titlee;
+      user.userQuery(url, val).then(response => {
+        log(response.data.data, "有没有值");
+        var data = response.data.data;
+        this.$emit("lookup", data);
+      });
     }
   }
 };

@@ -178,23 +178,12 @@ export default {
     daaa() {
       var that = this;
       var date = that.date;
-      var load = [];
+      // var load = [];
       if (date != null) {
-        for (var i = 0; i < date.length; i++) {
-          var e = date[i];
-
-          var data = new Date(e);
-          var y = e.getFullYear();
-          var m = e.getMonth() + 1;
-          // m = m < 10 ? '0' + m : m;
-          var d = e.getDate();
-          // d = d < 10 ? ('0' + d) : d;
-          var newDate = y + "-" + m + "-" + d;
-          log(newDate, "查询数据");
-          load.push(newDate);
-        }
-        that.information.beginTime = load[0];
-        that.information.endTime = load[1];
+        var n = filter.dateFilter(date)
+        // load.push(n);
+        that.information.beginTime = n[0];
+        that.information.endTime = n[1];
         log(that.information.beginTime, that.information.endTime, "骑士结束");
         var information = that.information;
         log(information, "提交的信息");
