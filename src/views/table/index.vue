@@ -92,7 +92,7 @@ export default {
       newTable: [],
       pages: 1,
       page: 1,
-      no:[],
+      no:'',
       ok : '',
       lookup: {
         provinceId: "", //省份
@@ -116,7 +116,7 @@ export default {
     },
     l(s) {
         log(s,'sss')
-        this.no.push(s)
+        this.no = s
     },
     k(s) {
         log(s,'kkkkkk')
@@ -127,13 +127,14 @@ export default {
       console.log(`当前页: ${val}`);
       if (that.ok) {
           log(that.no,'^^^^^^^^')
-      var query = that.no[0]
+      var query = that.no
+      log(query,'回退了什么')
       that.page = val;
       log(that.page, "第几页");
-      query.pageNo = val;
-      log(query.pageNo, "更新页码成功");
+      // query.pageNo = val;
+      // log(query.pageNo, "更新页码成功");
           that.lookup = query
-      }
+       }
       that.page = val;
       that.lookup.strNo = val
       that.filter();

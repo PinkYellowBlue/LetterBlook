@@ -48,12 +48,6 @@
           @click.native.prevent="deleteRow(scope.$index, tableData4)"
           type="text"
           size="small">
-          编辑权限
-        </el-button>
-                <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData4)"
-          type="text"
-          size="small">
           删除
         </el-button>
       </template>

@@ -21,7 +21,7 @@
                             </div>
                             <div class="city_flex">
                                 <div>注册省市</div>
-                                <div>湖南省长沙市</div>
+                                <div>{{item.city}}</div>
                             </div>
                             <div class="date_flex">
                                 <div>注册时间</div>
@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="date_flex">
                                     <div>账户余额</div>
-                                    <div>128元</div>
+                                    <div>{{item.amount}}元</div>
                                 </div>
                             </div>
     
@@ -128,6 +128,8 @@
 <script>
 const log = console.log.bind(console);
 import * as user from "@/api/user";
+import * as filter from "@/utils/filter";
+import Vue from "vue";
 export default {
   data() {
     return {
@@ -227,7 +229,7 @@ export default {
         }
       ],
       list: [],
-      dynamicNumber: '',
+      dynamicNumber: ""
     };
   },
   created: function() {
@@ -274,7 +276,12 @@ export default {
       var id = { id: val };
       user.userdetails(id).then(response => {
         log(response.data, "获取信息");
-        that.list.push(response.data.data);
+            that.list.push(response.data.data);
+            that.list.forEach(e => {
+                var i = filter.sexFilter(e.sex)
+                Vue.set(e, "sex", i)
+            });
+        
       });
     },
     DynamicList() {
@@ -283,16 +290,16 @@ export default {
       var id = { userId: val };
       user.dynamicList(id).then(response => {
         log(response.data, "获取动态信息");
-        that.dynamicNumber = response.data.data.total
+        that.dynamicNumber = response.data.data.total;
       });
     },
     FirendList() {
-        var that = this
-        var val = localStorage.getItem("id");
-        var id = { id: val };
-        user.firendList(id).then(response => {
-            log(response.data, "获取好友数量");
-            // that.dynamicNumber = response.data.data.total
+      var that = this;
+      var val = localStorage.getItem("id");
+      var id = { id: val };
+      user.firendList(id).then(response => {
+        log(response.data, "获取好友数量");
+        // that.dynamicNumber = response.data.data.total
       });
     }
   }

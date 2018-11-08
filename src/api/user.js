@@ -54,3 +54,30 @@ export function memberList(information) {
     data: Qs.stringify(information)
   })
 }
+
+//会员卡设置
+export function cardList() {
+  return request({
+    url: 'cms/user/selectSysConfigVip',
+    method: 'post',
+    data: '',
+  })
+}
+
+//会员卡销售统计
+export function cardCound(information) {
+  return request({
+    url: 'cms/user/countVipCard',
+    method: 'post',
+    data: Qs.stringify(information),
+  })
+}
+
+//会员通知列表
+export function noticeList(information) {
+  return request({
+    url: 'cms/user/memberNotification',
+    method: 'post',
+    data: Qs.stringify(information),
+  })
+}

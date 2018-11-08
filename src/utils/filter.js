@@ -75,5 +75,23 @@ export function dateFilter(date) {
       load.push(newDate);
     }
   return load
-  
+}
+//性别
+export function sexFilter(value) {
+  var dataKey = {
+    "1": "男",
+    "2": "女",
+  };
+  var newValue = dataKey[value];
+  return newValue;
+}
+//会员类型
+export function fourFilter(value) {
+  var dataKey = {
+    "1": "月卡会员",
+    "2": "季卡会员",
+    "3": "年卡会员",
+  };
+  var newValue = dataKey[value];
+  return newValue;
 }

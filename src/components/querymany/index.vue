@@ -125,11 +125,15 @@ export default {
       log(that.lookup, "请求数据");
       log(this.titlee, "有没有传成功");
       var d = that.date;
+      log(d,'请求时间')
       var p = true
       var s = p
         this.$emit("ok", s);
       // var load = [];
-      if (d != null) {
+      if (d == null) {
+           d = ''
+      }
+      if (d != null ) {
         var n = filter.dateFilter(d)
         // load.push(n);
         that.lookup.createTime = n[0];
@@ -141,7 +145,9 @@ export default {
         var s = that.lookup
         this.$emit("look", s);
       var url = that.titlee;
-      user.userQuery(url, val).then(response => {
+      that.lookup.strNo = 1
+      log(that.lookup,'最后要提交的数据')
+      user.userQuery(url, that.lookup).then(response => {
         log(response.data.data, "有没有值");
         var data = response.data.data;
         this.$emit("lookup", data);

@@ -20,7 +20,7 @@
         </div>
         <div class="user_name_list_flex">
           <div><img src="../../assets/input/VIP.png" alt=""></div>
-          <el-input v-model="lookup.phone" placeholder="请输入信书号"></el-input>
+          <el-input v-model="lookup.letterNo" placeholder="请输入信书号"></el-input>
         </div>
   
       </div>
@@ -111,6 +111,7 @@
         <template slot-scope="scope">
         <el-button
           size="mini"
+          @click.native.prevent="userDetails(scope.$index,scope.row)"
           >更多</el-button>
       </template>
       </el-table-column>
@@ -154,7 +155,7 @@ export default {
         userName: "", //真实姓名
         createTime: "", //创建时间
         endTime: "", //结束时间
-        strNo: 1
+        strNo: 1,
       },
       options: [
         {
@@ -174,10 +175,11 @@ export default {
       valu: "",
       pages: 0,
       page: 1,
+      str: true,
     };
   },
   created: function() {
-    this.filter();
+    this.queryUser();
   },
   methods: {
     handleSizeChange(val) {
@@ -203,46 +205,72 @@ export default {
       }
       that.page = val;
       that.lookup.strNo = val;
-      that.filter();
-    },
-    filter() {
-      var that = this;
-      user.userList(that.lookup).then(response => {
-        log(response, "成功");
-        var n = [];
-        var res = response.data.data;
-        var listN = res.list;
-        that.pages = res.total;
-        for (var i = 0; i < listN.length; i++) {
-          var stateValue = listN[i].onlineStatus; //会员类型
-          var newState = filter.lineFilter(stateValue);
-          Vue.set(listN[i], "onlineStatus", newState);
-          n.push(1);
-        }
-        if (n.length == listN.length) {
-          log(listN, "新返回的数据");
-          that.tableData = listN;
-        }
-      });
+      that.nextUser();
     },
     queryUser() {
       var that = this;
       log(that.lookup, "请求数据");
-      log(this.titlee, "有没有传成功");
       var d = that.date;
+      log(d,'请求时间')
       // var load = [];
-      var n = filter.dateFilter(d);
       // load.push(n);
-      that.lookup.createTime = n[0];
-      that.lookup.endTime = n[1];
-      log(that.lookup.createTime, that.lookup.endTime, "骑士结束");
-      var val = that.lookup;
-      log(val, "提交的信息");
+       if (d == null) {
+           d = ''
+      }
+      if (d != null) {
+                var n = filter.dateFilter(d);
+          that.lookup.createTime = n[0];
+        that.lookup.endTime = n[1];
+        log(that.lookup.createTime, that.lookup.endTime, "骑士结束");
+        var val = that.lookup;
+        log(val, "提交的信息");
+      }
+      val.strNo = 1
       user.memberList(val).then(response => {
         log(response.data.data, "有没有值");
         that.tableData = response.data.data.list;
         that.pages = response.data.data.total;
         that.page = response.data.data.page;
+      });
+    },
+    nextUser() {
+      var that = this;
+      log(that.lookup, "请求数据");
+      var d = that.date;
+      log(d,'请求时间')
+      // var load = [];
+      // load.push(n);
+       if (d == null) {
+           d = ''
+      }
+      if (d != null) {
+                var n = filter.dateFilter(d);
+          that.lookup.createTime = n[0];
+        that.lookup.endTime = n[1];
+        log(that.lookup.createTime, that.lookup.endTime, "骑士结束");
+        var val = that.lookup;
+        log(val, "提交的信息");
+      }
+      user.memberList(val).then(response => {
+        log(response.data.data, "有没有值");
+        that.tableData = response.data.data.list;
+        that.pages = response.data.data.total;
+        that.page = response.data.data.page;
+      });
+    },
+    //订单详情
+    userDetails(row) {
+      var that = this;
+      var data = that.tableData[row];
+      var id = data.id;
+      var obj = { id: id };
+      log(obj, "订单号");
+      localStorage.setItem("id", id); //本地保存订单
+      that.$router.push({
+        path: "example/userDataails",
+        query: {
+          paperId: id
+        }
       });
     }
   }
