@@ -28,67 +28,73 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
+      var userr = userInfo.password
+      var userq = {
+        phone: username,
+        passWord: userr
+      }
 
       return new Promise((resolve, reject) => {
-        setToken('admin')
-          commit('SET_TOKEN', 'admin')
-          console.log('执行');
-          resolve()
-          .catch(error => {
-            reject(error)
-          })
-        // login(username, userInfo.password)
-        // .then(response => {
-        //   const data = response.data
-        //   console.log(data,'参数聚合');
-        //   setToken(data.data.token)
-        //   commit('SET_TOKEN', data.data.token)
-        //   console.log(data.data.token, 'cook是什么')
+        // setToken('admin')
+        //   commit('SET_TOKEN', 'admin')
+        //   console.log('执行');
         //   resolve()
-        // })
-        // .catch(error => {
-        //   reject(error)
-        // })
+        //   .catch(error => {
+        //     reject(error)
+        //   })
+        login(userq)
+        .then(response => {
+          const data = response.data
+          console.log(data,'参数聚合');
+          setToken(data.data)
+          commit('SET_TOKEN', data.data)
+          console.log( data.data, 'cook是什么')
+          resolve()
+        })
+        .catch(error => {
+          reject(error)
+        })
       })
     },
 
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        var roles = ['admin']
-        var name = "admin"
-        var avatar = "http://thirdwx.qlogo.cn/mmopen/hgXWbMaaqmAj8fAKJJq1nozVgMrm7CfOd7w1W7UleKwFJT2dQbE7W9qRWr04Zra7W1PRQ5fibRZgqr7myOiadx6Q/132"
-        if (roles && roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            console.log('长度大于1');
+        console.log(state.token,'tokenllllll')
+        // var roles = ['admin']
+        // var name = "admin"
+        // var avatar = "http://thirdwx.qlogo.cn/mmopen/hgXWbMaaqmAj8fAKJJq1nozVgMrm7CfOd7w1W7UleKwFJT2dQbE7W9qRWr04Zra7W1PRQ5fibRZgqr7myOiadx6Q/132"
+        // if (roles && roles.length > 0) { // 验证返回的roles是否是一个非空数组
+        //     console.log('长度大于1');
             
-          commit('SET_ROLES', roles)
-          console.log(roles,'获得权限');
+        //   commit('SET_ROLES', roles)
+        //   console.log(roles,'获得权限');
           
-        } else {
-          reject('getInfo: roles must be a non-null array !')
-        }
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve()
-        .catch(error => {
-          reject(error)
-        })
-        // getInfo(state.token)
-        // .then(response => {
-        //   const data = response.data
-        //   console.log(data,'用户信息');
-          
-        //   if (data.data.roles && data.data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-        //     commit('SET_ROLES', data.data.roles)
-        //   } else {
-        //     reject('getInfo: roles must be a non-null array !')
-        //   }
-        //   commit('SET_NAME', data.data.name)
-        //   commit('SET_AVATAR', data.data.avatar)
-        //   resolve(response)
-        // }).catch(error => {
+        // } else {
+        //   reject('getInfo: roles must be a non-null array !')
+        // }
+        // commit('SET_NAME', name)
+        // commit('SET_AVATAR', avatar)
+        // resolve()
+        // .catch(error => {
         //   reject(error)
         // })
+        getInfo(state.token)
+        .then(response => {
+          const data = response.data
+          console.log(data,'用户信息');
+          
+          if (data.data.roles && data.data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+            commit('SET_ROLES', data.data.roles)
+          } else {
+            reject('getInfo: roles must be a non-null array !')
+          }
+          // commit('SET_NAME', data.data.name)
+          // commit('SET_AVATAR', data.data.avatar)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
       })
     },
 

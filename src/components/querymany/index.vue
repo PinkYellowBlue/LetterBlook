@@ -4,8 +4,9 @@
       <div class="user_name_list_case_top">
         <div class="user_name_list_flex">
           <div><img src="../../assets/input/City.png" alt=""></div>
-          <el-cascader size="large" :options="optionss" clearable v-model="selectedOptions" @change="handleChange" placeholder="请选择地址" >
-          </el-cascader>
+          <!-- <el-cascader size="large" :options="optionss" clearable v-model="selectedOptions" @change="handleChange" placeholder="请选择地址" >
+          </el-cascader> -->
+          <provincial-cities @provinceer="p" @cityer="c"></provincial-cities>
         </div>
         <div class="user_name_list_flex">
           <div><img src="../../assets/input/User.png" alt=""></div>
@@ -17,14 +18,14 @@
           <el-input v-model="lookup.phone" placeholder="请输入手机号"></el-input>
   
         </div>
-        <div class="user_name_list_flex">
+        <!-- <div class="user_name_list_flex">
           <div><img src="../../assets/input/VIP.png" alt=""></div>
           <el-select v-model="lookup.userType" :placeholder=ss clearable>
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
   
           </el-select>
-        </div>
+        </div> -->
   
       </div>
       <div class="user_name_list_case_bottom">
@@ -44,6 +45,14 @@
       end-placeholder="结束日期">
     </el-date-picker>
                         </div>
+        </div>
+        <div class="user_name_list_flex">
+          <div><img src="../../assets/input/VIP.png" alt=""></div>
+          <el-select v-model="lookup.userType" :placeholder=ss clearable>
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+  
+          </el-select>
         </div>
         <div class="user_name_list_flex">
           <div><img src="../../assets/input/RealName.png" alt=""></div>
@@ -107,12 +116,12 @@ export default {
     };
   },
   methods: {
-    handleChange(value) {
-      var that = this;
-      that.lookup.provinceId = value[0];
-      that.lookup.cityId = value[1];
-      console.log(value, "数据是什么");
-    },
+    // handleChange(value) {
+    //   var that = this;
+    //   that.lookup.provinceId = value[0];
+    //   that.lookup.cityId = value[1];
+    //   console.log(value, "数据是什么");
+    // },
     d() {
       console.log(selectedOptions, "编码");
     },
@@ -120,6 +129,22 @@ export default {
     //     var data = ['qwe']
     //     this.$emit('lookup', data)
     // },
+    p(pro) {
+      var that = this
+        log(pro,'传过来的数据') 
+        that.lookup.provinceId = pro
+        if (pro == null) {
+          that.lookup.provinceId = ''
+        }
+    },
+    c(cityEx) {
+      var that = this
+        log(cityEx,'传过来的city') 
+        that.lookup.cityId = cityEx
+        if (cityEx == null) {
+          that.lookup.cityId = ''
+        }
+    },
     queryUser() {
       var that = this;
       log(that.lookup, "请求数据");
@@ -168,13 +193,13 @@ export default {
   .user_name_list_case {
     margin-top: 20px;
     margin-left: 10px;
-    width: 1150px;
+    width: 1200px;
     height: 180px;
     // border: 1px solid #999;
     .user_name_list_case_top {
       width: 1100px;
       display: flex;
-      margin-left: 10px;
+      margin-left: 5%;
       margin-top: 20px;
       justify-content: space-between;
       .user_name_list_flex {
@@ -190,7 +215,7 @@ export default {
       justify-content: space-between;
       margin-top: 50px;
       margin-left: 10px;
-      width: 1100px;
+      width: 1200px;
       .list_case_bottom {
         display: flex;
         justify-content: space-between;

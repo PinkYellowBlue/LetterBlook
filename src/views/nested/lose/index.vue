@@ -4,15 +4,24 @@
             <div class="new_user_top_case">
                 <div class="new_user_top_case_flex">
                     <div>
-                        <el-cascader size="large" :options="optionss" v-model="selectedOptions" @change="handleChange">
+                        <!-- <el-cascader size="large" :options="optionss" v-model="selectedOptions" @change="handleChange">
     
-                        </el-cascader>
+                        </el-cascader> -->
+<el-select v-model="queryQC.provinceId" clearable placeholder="请选择省份"
+                 :filterable="true" remote >
+    <el-option
+      v-for="item in provincet"
+      :key="item.areaId"
+      :label="item.areaName"
+      :value="item.areaId">
+    </el-option>
+  </el-select>
                     </div>
                     <div class="date_regist">
                         <div class="new_user_title">注册时间:</div>
                         <div>
                         <el-date-picker
-                            v-model="value6"
+                            v-model="queryQC.updateTime"
                             type="date"
                             placeholder="选择日期">
                         </el-date-picker>
@@ -44,7 +53,7 @@
             <el-table :data="tableData" style="width: 100%">
                 <el-table-column prop="province" label="省份">
                 </el-table-column>
-                <el-table-column prop="number" label="数量">
+                <el-table-column prop="peopleCount" label="数量">
                 </el-table-column>
             </el-table>
         </div>
@@ -58,8 +67,12 @@
 
 <script>
 import VeLine from "v-charts/lib/line.common";
+import * as filter from "@/utils/filter";
+import * as province from "@/api/place";
 import VeHistogram from "v-charts/lib/histogram.common";
 import { provinceAndCityData } from "element-china-area-data";
+import * as dataStaer from "@/api/dataStatis";
+const log = console.log.bind(console);
 export default {
   components: {
     VeLine,
@@ -67,38 +80,18 @@ export default {
   },
   data() {
     return {
+      queryQC: {
+        provinceId: "", //省份
+        updateTime: "" //时间
+      },
+      provincet: [],
       optionss: provinceAndCityData,
       selectedOptions: [],
       show: true,
       showw: true,
       chartData: {
-        columns: ["date", "PV"],
-        rows: [
-          {
-            date: "湖南省",
-            PV: 1231
-          },
-          {
-            date: "浙江省",
-            PV: 1223
-          },
-          {
-            date: "湖北省",
-            PV: 2123
-          },
-          {
-            date: "广东省",
-            PV: 4123
-          },
-          {
-            date: "山东省",
-            PV: 3123
-          },
-          {
-            date: "台湾省",
-            PV: 7123
-          }
-        ]
+        columns: ["province", "peopleCount"],
+        rows: []
       },
       //     chartData: {
       //   columns: ['日期', '访问用户', '下单用户', '下单率'],
@@ -135,31 +128,22 @@ export default {
         }
       ],
       value: "",
-      tableData: [
-        {
-          province: "湖南省",
-          number: "2000"
-        },
-        {
-          province: "湖南省",
-          number: "2000"
-        },
-        {
-          province: "湖南省",
-          number: "2000"
-        },
-        {
-          province: "湖南省",
-          number: "2000"
-        },
-        {
-          province: "湖南省",
-          number: "2000"
-        }
-      ]
+      tableData: []
     };
   },
+  created: function() {
+    this.LossUserList();
+    this.provinceChoice();
+  },
   methods: {
+    //查询省份
+    provinceChoice() {
+      var that = this;
+      province.provinceList().then(response => {
+        that.provincet = response.data.data;
+        log(response.data, "省份");
+      });
+    },
     showToggest() {
       var that = this;
       // this.show = false
@@ -182,6 +166,14 @@ export default {
     },
     handleChange(value) {
       console.log(value, "数据是什么");
+    },
+    LossUserList() {
+      var that = this;
+      dataStaer.lossUserList().then(response => {
+        log(response.data, "数据属性");
+        that.tableData = response.data.data.list;
+        that.chartData.rows = response.data.data;
+      });
     }
   }
 };

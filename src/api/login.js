@@ -1,21 +1,20 @@
 import request from '@/utils/request'
-
-export function login(username, password) {
+import Qs from 'qs'
+export function login(username) {
   return request({
-    url: '/user/login',
+    url: 'cms/sysRole/login',
     method: 'post',
-    data: {
-      username,
-      password
-    }
+    data: Qs.stringify(username)
   })
 }
 
 export function getInfo(token) {
   return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
+    url: 'cms/sysRole/roleAuthorization',
+    method: 'post',
+    data: Qs.stringify({
+          token: token
+        })
   })
 }
 

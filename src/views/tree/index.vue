@@ -4,15 +4,17 @@
     <div class="user_name_list_case">
       <div class="user_name_list_case_top">
         <div class="user_name_list_flex">
-          <div><img src="../../assets/input/City.png" alt=""></div>
+          <!-- <div><img src="../../assets/input/City.png" alt=""></div>
           <el-cascader size="large" :options="optionss" clearable v-model="selectedOptions" @change="handleChange" placeholder="请选择地址" >
-          </el-cascader>
+          </el-cascader> -->
+          <div><img src="../../assets/input/City.png" alt=""></div>
+          <provincial-cities @provinceer="provv" @cityer="cityy"></provincial-cities>
         </div>
-        <div class="user_name_list_flex">
+        <!-- <div class="user_name_list_flex">
           <div><img src="../../assets/input/User.png" alt=""></div>
           <el-input v-model="lookup.userName" placeholder="请输入姓名"></el-input>
   
-        </div>
+        </div> -->
         <div class="user_name_list_flex">
           <div><img src="../../assets/input/PhoneNum.png" alt=""></div>
           <el-input v-model="lookup.phone" placeholder="请输入手机号"></el-input>
@@ -41,6 +43,11 @@
       end-placeholder="结束日期">
     </el-date-picker>
                         </div>
+        </div>
+         <div class="user_name_list_flex">
+          <div><img src="../../assets/input/User.png" alt=""></div>
+          <el-input v-model="lookup.userName" placeholder="请输入姓名"></el-input>
+  
         </div>
         <div class="user_name_list_flex">
           <div><img src="../../assets/input/RealName.png" alt=""></div>
@@ -182,6 +189,25 @@ export default {
     this.queryUser();
   },
   methods: {
+    // 省份
+    provv(pro) {
+      log(pro,'省份')
+      var that = this
+        log(pro,'传过来的数据') 
+        that.lookup.provinceId = pro
+        if (pro == null) {
+          that.lookup.provinceId = ''
+        }
+    },
+    //城市
+    cityy(cityEx) {
+      var that = this
+        log(cityEx,'传过来的city') 
+        that.lookup.cityId = cityEx
+        if (cityEx == null) {
+          that.lookup.cityId = ''
+        }
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
@@ -291,13 +317,13 @@ export default {
     .user_name_list_case {
       margin-top: 20px;
       margin-left: 10px;
-      width: 1150px;
+      width: 1200px;
       height: 180px;
       // border: 1px solid #999;
       .user_name_list_case_top {
         width: 1100px;
         display: flex;
-        margin-left: 10px;
+        margin-left: 5%;
         margin-top: 20px;
         justify-content: space-between;
         .user_name_list_flex {
@@ -313,7 +339,7 @@ export default {
         justify-content: space-between;
         margin-top: 50px;
         margin-left: 10px;
-        width: 1100px;
+        width: 1200px;
         .list_case_bottom {
           display: flex;
           justify-content: space-between;

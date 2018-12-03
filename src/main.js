@@ -12,7 +12,8 @@ import '@/styles/main.scss' // 组件css
 // import '@/views/rem.js'
 import App from './App'
 import router from './router'
-import querymany from './components/querymany/index.vue'
+import querymany from './components/querymany/index.vue' //  用户选择查询组件
+import provincialcities from './components/provincialCities/index.vue' //省份城市组件
 import store from './store'
 
 import '@/icons' // icon
@@ -22,6 +23,9 @@ Vue.use(ElementUI, { zhLocale },).use(VCharts)
 Vue.config.productionTip = false
 Vue.component(
   'query-many', querymany,
+)
+Vue.component(
+  'provincial-cities', provincialcities,
 )
 new Vue({
   el: '#app',

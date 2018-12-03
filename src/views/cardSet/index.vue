@@ -39,9 +39,19 @@
       start-placeholder="开始日期"
       end-placeholder="结束日期">
     </el-date-picker>
-              <el-cascader size="large" :options="optionss" v-model="selectedOptions" @change="handleChange" clearable>
+              <!-- <el-cascader size="large" :options="optionss" v-model="selectedOptions" @change="handleChange" clearable>
   
-          </el-cascader>
+          </el-cascader> -->
+          <!-- <el-select v-model="information.provinceId" clearable placeholder="请选择省份"
+                 :filterable="true" remote >
+    <el-option
+      v-for="item in provincet"
+      :key="item.areaCode"
+      :label="item.areaName"
+      :value="item.areaCode">
+    </el-option>
+  </el-select> -->
+  <provincial-cities @provinceer="ceer" @cityer="cityyy"></provincial-cities>
     <el-button type="primary" plain @click="cardCound">查 询</el-button>
   <el-button type="primary" plain>导出EXCEL</el-button>
 
@@ -74,6 +84,7 @@
 import { provinceAndCityData } from "element-china-area-data";
 import * as user from "@/api/user";
 import * as filter from "@/utils/filter";
+import * as province from "@/api/place";
 import Vue from "vue";
 // import func from './vue-temp/vue-editor-bridge';
 const log = console.log.bind(console);
@@ -98,23 +109,47 @@ export default {
         }
       ],
       information: {
-        cardType: "",
-        createTime: "",
-        endTime: "",
-        areaId: ""
+        cardType: "", //卡类型
+        createTime: "", //开始时间
+        endTime: "",  // 结束时间
+        provinceId: "", // 省份code
+        cityId: "",  //城市code
       },
       card: "",
       key: "",
       date: [],
       tableData: [],
-      cardData: []
+      cardData: [],
+      provincet:[],
     };
   },
   created: function() {
     this.cardList();
     this.cardCound();
+    // this.provinceChoice()
   },
   methods: {
+    //添加省份
+    ceer(pro) {
+        var that = this
+        that.information.provinceId = pro
+        log(pro,'传递的省份')
+},
+    //添加城市
+    cityyy(cityEx) {
+      var that = this
+        that.information.cityId = cityEx
+        log(cityEx,'传递的省份')
+    },
+    //  //查询省份
+    //   provinceChoice() {
+    //   var that = this;
+    //   province.provinceList()
+    //   .then(response => {
+    //     that.provincet = response.data.data;
+    //     log(response.data, "省份");
+    //   });
+    // },
     handleChange(value) {
       console.log(value, "数据是什么");
     },
@@ -134,9 +169,9 @@ export default {
       if (date == null) {
         date = ''
       }
-          that.information.areaId = that.selectedOptions[1]
+          // that.information.areaId = that.selectedOptions[1]
       
-      log(that.selectedOptions,'地区')
+      // log(that.selectedOptions,'地区')
       if (date != null) {
         var n = filter.dateFilter(date);
         // load.push(n);
