@@ -52,7 +52,7 @@
 
 <script>
 import * as delt from "@/api/finance";
-import * as filter from "@/Utils/validate";
+import * as filter from "@/Utils/filter";
 const log = console.log.bind(console)
 import Vue from "vue";
 export default {

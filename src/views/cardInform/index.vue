@@ -32,9 +32,10 @@
                 <div class="user_name_list_case_top">
                     <div class="user_name_list_flex">
                         <div><img src="../../assets/input/City.png" alt=""></div>
-                        <el-cascader size="large" :options="optionss" v-model="selectedOptions" @change="handleChange" clearable>
+                        <!-- <el-cascader size="large" :options="optionss" v-model="selectedOptions" @change="handleChange" clearable>
     
-                        </el-cascader>
+                        </el-cascader> -->
+                          <provincial-cities @provinceer="ceer" @cityer="cityyy"></provincial-cities>
                     </div>
                     <div class="user_name_list_flex">
                         <div><img src="../../assets/input/User.png" alt=""></div>
@@ -46,14 +47,14 @@
                         <el-input v-model="notice.phone" placeholder="请输入手机号"></el-input>
     
                     </div>
-                    <div class="user_name_list_flex">
+                    <!-- <div class="user_name_list_flex">
                         <div><img src="../../assets/input/VIP.png" alt=""></div>
                         <el-select v-model="notice.userType" placeholder="请选择会员类型" clearable>
                             <el-option v-for="item in optionsss" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
     
                         </el-select>
-                    </div>
+                    </div> -->
     
                 </div>
                 <div class="user_name_list_case_bottom">
@@ -70,6 +71,14 @@
                     <div class="user_name_list_flex">
                         <div><img src="../../assets/input/RealName.png" alt=""></div>
                         <el-input resize="none" v-model="notice.userName" placeholder="请输入姓名"></el-input>
+                    </div>
+                    <div class="user_name_list_flex">
+                        <div><img src="../../assets/input/VIP.png" alt=""></div>
+                        <el-select v-model="notice.userType" placeholder="请选择会员类型" clearable>
+                            <el-option v-for="item in optionsss" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+    
+                        </el-select>
                     </div>
                     <div>
                         <el-button type="primary" plain @click="queryNotice">查询</el-button>
@@ -176,6 +185,7 @@ export default {
         userType: "", // 会员类型
         createTime: "", // 开始时间
         endTime: "", // 结束时间
+        provinceId: "", // 省份
         strNo: 1,
       },
       multipleSelection: []
@@ -185,6 +195,16 @@ export default {
     this.NoticList();
   },
   methods: {
+    // 传递省份
+    ceer(pro) {
+        var that = this
+        that.notice.provinceId = pro
+    },
+    //传递城市
+    cityyy(cityEx) {
+      var that = this
+        that.notice.cityId = cityEx
+    },
     // toggleSelection(rows) {
     //     if (rows) {
     //         rows.forEach(row => {
@@ -228,7 +248,7 @@ export default {
       log(that.notice, "请求数据");
       var d = that.value_date;
       log(d, "请求时间");
-      var q = that.selectedOptions
+      // var q = that.selectedOptions
       var p = true;
       // var load = [];
       if (d == null) {
@@ -241,14 +261,14 @@ export default {
         that.notice.endTime = n[1];
         log(that.notice.createTime, that.notice.endTime, "骑士结束");
       }
-      if (q == null) {
-        q = "";
-      }
-      if (q != null) {
-        // load.push(n);
-        that.notice.cityId = q[1];
-        log(that.notice.cityId, "地址编码");
-      }
+      // if (q == null) {
+      //   q = "";
+      // }
+      // if (q != null) {
+      //   // load.push(n);
+      //   that.notice.cityId = q[1];
+      //   log(that.notice.cityId, "地址编码");
+      // }
       that.notice.strNo = 1;
       log(that.notice, "最后要提交的数据");
         // notic.noticeList(that.notice)
@@ -331,13 +351,13 @@ export default {
     .user_name_list_case {
       margin-top: 20px;
       margin-left: 10px;
-      width: 1150px;
+      width: 1200px;
       height: 180px;
       // border: 1px solid #999;
       .user_name_list_case_top {
         width: 1100px;
         display: flex;
-        margin-left: 10px;
+        margin-left: 5%;
         margin-top: 20px;
         justify-content: space-between;
         .user_name_list_flex {
@@ -353,7 +373,7 @@ export default {
         justify-content: space-between;
         margin-top: 50px;
         margin-left: 10px;
-        width: 1100px;
+        width: 1200px;
         .list_case_bottom {
           display: flex;
           justify-content: space-between;

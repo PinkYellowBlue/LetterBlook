@@ -10,7 +10,13 @@ import {
  */
 function hasPermission(roles, route) {
   if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
+      console.log(route,'****************');
+      var c = roles.some(role => route.meta.roles.includes(role))
+      console.log(roles,'&&&&&&&&&&&&');
+      
+      console.log(c,'%%%%%%%%%%%%');
+      
+      return c
   } else {
     return true
   }
@@ -32,6 +38,8 @@ function filterAsyncRouter(routes, roles) {
         tmp.children = filterAsyncRouter(tmp.children, roles)
       }
       res.push(tmp)
+      console.log(res,'^^^^^^^^^');
+      
     }
   })
 
@@ -60,6 +68,7 @@ const permission = {
         console.log(roles,'什么身份');
         
         let accessedRouters
+                   accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
         if (roles.includes('admin')) {
           accessedRouters = asyncRouterMap
           console.log(accessedRouters,'异步加载###');

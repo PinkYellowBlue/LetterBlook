@@ -1,14 +1,28 @@
+//测试图片
+export function testImg(n) {
+  var b = "http://apitest.letterbook.cn/letter" + n
+  return b
+}
+//角色状态
+  export function roleState(value) {
+    var dataKey = {
+      "0": "正常",
+      "1": "禁用",
+    };
+    var newValue = dataKey[value];
+    return newValue;
+  }
 //交易金额
 export function dealMoney(n) {
-    if (n > 0) {
-      var newN = n / 10 / 10
-        var b =  newN.toFixed(2)+'元'
-    } else {
-      return n
-    }
-    return b
+  if (n > 0) {
+    var newN = n / 10 / 10
+    var b = newN.toFixed(2) + '元'
+  } else {
+    return n
+  }
+  return b
 }
- 
+
 
 //支付状态
 export function stateFilter(value) {
@@ -63,18 +77,31 @@ export function lineFilter(value) {
 //时间转换
 export function dateFilter(date) {
   var load = [];
-    for (var i = 0; i < date.length; i++) {
-      var e = date[i];
-      var data = new Date(e);
-      var y = e.getFullYear();
-      var m = e.getMonth() + 1;
-      // m = m < 10 ? '0' + m : m;
-      var d = e.getDate();
-      // d = d < 10 ? ('0' + d) : d;
-      var newDate = y + "-" + m + "-" + d;
-      load.push(newDate);
-    }
+  for (var i = 0; i < date.length; i++) {
+    var e = date[i];
+    var data = new Date(e);
+    var y = e.getFullYear();
+    var m = e.getMonth() + 1;
+    // m = m < 10 ? '0' + m : m;
+    var d = e.getDate();
+    // d = d < 10 ? ('0' + d) : d;
+    var newDate = y + "-" + m + "-" + d;
+    load.push(newDate);
+  }
   return load
+}
+//时间转换ex
+export function dateFilterex(date) {
+  var e = date;
+  var data = new Date(e);
+  var y = e.getFullYear();
+  var m = e.getMonth() + 1;
+  // m = m < 10 ? '0' + m : m;
+  var d = e.getDate();
+  // d = d < 10 ? ('0' + d) : d;
+  var newDate = y + "-" + m + "-" + d;
+
+  return newDate
 }
 //性别
 export function sexFilter(value) {

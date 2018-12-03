@@ -21,7 +21,8 @@
                             </div>
                             <div class="city_flex">
                                 <div>注册省市</div>
-                                <div>{{item.city}}</div>
+                                <div>{{item.province}}-{{item.city}}</div>
+                                <!-- <div>{{item.city}}</div> -->
                             </div>
                             <div class="date_flex">
                                 <div>注册时间</div>
@@ -61,19 +62,13 @@
                     <div class="dynamic_left_scllo">
                         <div class="dynamic_left_list" v-for="(item, index) in listDataails" :key="index">
                             <div class="dynamic_left_list_str">
-                                {{item.str}}
-                            </div>
+                                {{item.content}}
+                            </div>                                                      
                             <div class="dynamic_left_list_img">
-                                <img :src="item.img" alt="">
-                                <img :src="item.imgg" alt="">
-                                <img :src="item.imggg" alt="">
-                                <img :src="item.imgggg" alt="">
-                                <img :src="item.imgggg" alt="">
-                                <img :src="item.i" alt="">
-                                <!-- <img :src="item.im" alt="">
-                                                    <img :src="item.imgi" alt="">
-                                                    <img :src="item.imgii" alt=""> -->
-    
+                                <div v-for="(imger ,index) in item.userFileVos" :key="index">
+                                        <img :src="imger.imgUrl" alt="">
+                                </div>
+                                
                             </div>
                             <div class="button_right" @click="deleterMessage(index)">
                                 <el-button type="danger" plain>点击删除</el-button>
@@ -81,7 +76,7 @@
                         </div>
                     </div>
                     <div class="paginatt">
-                        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-size="10" layout="total, prev, pager, next, jumper" :total="100">
+                        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-size="2" layout="total, prev, pager, next, jumper" :total="dynamicNumber">
                         </el-pagination>
                     </div>
                 </div>
@@ -108,7 +103,7 @@
                         </div>
                     </div>
                     <div class="paginatt">
-                        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-size="10" layout=" prev, pager, next" :total="100">
+                        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-size="10" layout=" prev, pager, next" :total="dynamicNumber">
                         </el-pagination>
                     </div>
                 </div>
@@ -133,35 +128,9 @@ import Vue from "vue";
 export default {
   data() {
     return {
-      currentPage4: 4,
+      currentPage4: 1,
       dialogVisible: false,
-      listDataails: [
-        {
-          str:
-            "今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好",
-          img: "src/assets/registe/w.jpg",
-          imgg: "src/assets/registe/e.jpg",
-          imggg: "src/assets/registe/s.jpg",
-          imgggg: "src/assets/registe/q.jpg",
-          i: "src/assets/registe/x.jpg"
-          // im: 'src/assets/input/log.png',
-          // imgi: 'src/assets/input/log.png',
-          // imgii: 'src/assets/input/log.png',
-        },
-        {
-          str:
-            "今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好",
-          img: "src/assets/input/log.png",
-          imgg: "src/assets/input/log.png",
-          imggg: "src/assets/input/log.png"
-        }
-        //                     {
-        //     str: '今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好今天星期日我,我在上班真好',
-        //     img: 'src/assets/input/log.png',
-        //     imgg: 'src/assets/input/log.png',
-        //     imggg: 'src/assets/input/log.png',
-        // },
-      ],
+      listDataails: [],
       pinkk: [
         {
           t: "今天星期日",
@@ -229,7 +198,9 @@ export default {
         }
       ],
       list: [],
-      dynamicNumber: ""
+      pages: "",
+      imgList: [],
+      dynamicNumber: 1
     };
   },
   created: function() {
@@ -242,7 +213,43 @@ export default {
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+        var that = this;
+    //   var val = localStorage.getItem("id");
+      var id = { 
+          userId: "265",
+          pageNo: val
+          };
+      user.dynamicList(id).then(response => {
+        log(response.data, "获取动态信息");
+        that.dynamicNumber = response.data.data.total;
+        that.listDataails = response.data.data.list
+        // var imgAjaxList = that.listDataails
+        // that.imgList = that.listDataails
+        var arraye = that.listDataails
+        // log(arraye,'数组*&*&*&')
+        var n = []
+        var numberN = []
+        // that.imgList = imgAjaxList
+            for (let i = 0; i < arraye.length; i++) {
+                var e = arraye[i]
+                //.userFileVos;
+                log(e,'@@@@')
+                // n.push(1)
+                let numberN = e.userFileVos
+                 log(numberN,'图片数组')
+                //  n.push(numberN)
+                for (let l = 0; l < numberN.length; l++) {
+                    var r = numberN[l].imgUrl;
+                     n.push(numberN[l])
+                    var q = filter.testImg(r);
+                    log(q,'改革数据')
+                    // n.push(1)
+                    Vue.set(numberN[l], "imgUrl", q);
+                    var obj = {imgUrl: r}
+                    n.push(obj)
+                }     
+            }
+      })
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
@@ -276,21 +283,59 @@ export default {
       var id = { id: val };
       user.userdetails(id).then(response => {
         log(response.data, "获取信息");
-            that.list.push(response.data.data);
-            that.list.forEach(e => {
-                var i = filter.sexFilter(e.sex)
-                Vue.set(e, "sex", i)
-            });
-        
+        that.list.push(response.data.data);
+        that.list.forEach(e => {
+          var i = filter.sexFilter(e.sex);
+          Vue.set(e, "sex", i);
+        });
       });
     },
     DynamicList() {
       var that = this;
       var val = localStorage.getItem("id");
-      var id = { userId: val };
+      var id = { userId: "265" };
       user.dynamicList(id).then(response => {
         log(response.data, "获取动态信息");
-        that.dynamicNumber = response.data.data.total;
+        that.dynamicNumber = response.data.data.total; //总条数
+        that.listDataails = response.data.data.list //图文集合
+        that.pages = response.data.data.pages
+        // var imgAjaxList = that.listDataails
+        // that.imgList = that.listDataails
+        var arraye = that.listDataails
+        // log(arraye,'数组*&*&*&')
+        var n = []
+        var numberN = []
+        // that.imgList = imgAjaxList
+            for (let i = 0; i < arraye.length; i++) {
+                var e = arraye[i]
+                //.userFileVos;
+                log(e,'@@@@')
+                // n.push(1)
+                let numberN = e.userFileVos
+                 log(numberN,'图片数组')
+                //  n.push(numberN)
+                for (let l = 0; l < numberN.length; l++) {
+                    var r = numberN[l].imgUrl;
+                     n.push(numberN[l])
+                    var q = filter.testImg(r);
+                    log(q,'改革数据')
+                    // n.push(1)
+                    Vue.set(numberN[l], "imgUrl", q);
+                    var obj = {imgUrl: r}
+                    n.push(obj)
+                }     
+            }
+                // that.imgList = n
+                //     log(that.imgList,'转换之后的数组####')
+                // if (numberN.length == n.length) {
+                //     that.imgList = numberN
+                //     log(that.imgList,'转换之后的数组####')
+                // }
+        // imgAjaxList.forEach(e => {
+        //     var i = filter.testImg(e.userFileVos);
+        //   Vue.set(e, "userFileVos", i);
+        // });
+                
       });
     },
     FirendList() {
@@ -469,6 +514,9 @@ export default {
               padding-top: 10px;
             }
             .dynamic_left_list_img {
+                display: flex;
+                flex-direction: row;
+                width: 300px;
               margin-top: 20px;
               margin-left: 20px;
               // display: flex;

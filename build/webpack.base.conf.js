@@ -22,6 +22,9 @@ const createLintingRule = () => ({
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
+  externals: {
+    "CKEDITOR": "window.CKEDITOR"
+  },
   entry: {
     app: './src/main.js'
   },
