@@ -1,80 +1,80 @@
 <template>
-    <div class=" new_user">
-        <div class="new_user_top">
-            <div class="new_user_top_case">
-                <div class="new_user_top_case_flex">
-                    <div>
-                        <el-select v-model="queryQC.provinceId" clearable placeholder="请选择省份"
-                 :filterable="true" remote >
-    <el-option
-      v-for="item in provincet"
-      :key="item.areaCode"
-      :label="item.areaName"
-      :value="item.areaCode">
-    </el-option>
-  </el-select>
-                    </div>
-                   <div class="list_case_bottom">
-          <div class="list_case_date">注册时间:</div>
+  <div class="new_user">
+    <div class="new_user_top">
+      <div class="new_user_top_case">
+        <div class="new_user_top_case_flex">
           <div>
-                <el-date-picker
-      v-model="date"
-      type="daterange"
-      range-separator="至"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期">
-    </el-date-picker>
+            <el-select
+              v-model="queryQC.provinceId"
+              clearable
+              placeholder="请选择省份"
+              :filterable="true"
+              remote
+            >
+              <el-option
+                v-for="item in provincet"
+                :key="item.areaCode"
+                :label="item.areaName"
+                :value="item.areaCode"
+              ></el-option>
+            </el-select>
           </div>
-         
-        </div>
-                    <div>
-                        <el-button type="primary" plain @click="showwToggest">列表/图表</el-button>
-                    </div>
-                     <div class="button_ex">
-                    <div>
-                        <el-button type="primary" plain @click="queryList">查 询</el-button>
-                    </div>
-                    <div>
-                        <el-button type="primary" plain>导出EXCEL</el-button>
-                    </div>
-                </div>
-                </div>
+          <div class="list_case_bottom">
+            <div class="list_case_date">注册时间:</div>
+            <div>
+              <el-date-picker
+                v-model="date"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+              ></el-date-picker>
             </div>
-        </div>
-        <div class="new_user_data">
-            <div class="new_data">
-                2018年11月12日至2018年11月22日 全国新用户统计
+          </div>
+          <div>
+            <el-button type="primary" plain @click="showwToggest">列表/图表</el-button>
+          </div>
+          <div class="button_ex">
+            <div>
+              <el-button type="primary" plain @click="queryList">查 询</el-button>
             </div>
-            <div class="new_button" @click="showToggest">
-                <el-button type="warning" plain>柱状图/折线图</el-button>
+            <div>
+              <el-button type="primary" plain>导出EXCEL</el-button>
             </div>
+          </div>
         </div>
-        <div v-if="showw" class="tab_user">
-            <el-table :data="tableData" style="width: 100%">
-                <el-table-column prop="province" label="省份">
-                </el-table-column>
-                <el-table-column prop="peopleCount" label="数量">
-                </el-table-column>
-            </el-table>
-        </div>
-        <div v-else>
-            <ve-line :data="chartData" v-if="show"></ve-line>
-            <ve-histogram :data="chartData" v-else></ve-histogram>
-        </div>
-         <!-- 分页器 -->
-            <div class="paging">
+      </div>
+    </div>
+    <div class="new_user_data">
+      <div class="new_data">2018年11月12日至2018年11月22日 全国新用户统计</div>
+      <div class="new_button" @click="showToggest">
+        <el-button type="warning" plain>柱状图/折线图</el-button>
+      </div>
+    </div>
+    <div v-if="showw" class="tab_user">
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column prop="province" label="省份"></el-table-column>
+        <el-table-column prop="peopleCount" label="数量"></el-table-column>
+      </el-table>
+    </div>
+    <div v-else>
+      <ve-line :data="chartData" v-if="show"></ve-line>
+      <ve-histogram :data="chartData" v-else></ve-histogram>
+    </div>
+    <!-- 分页器 -->
+    <div class="paging">
       <el-pagination
-      background
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="strNo"
-      :page-size="2"
-      layout="total, prev, pager, next, jumper"
-      :total="pages">
-    </el-pagination>
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="strNo"
+        :page-size="2"
+        layout="total, prev, pager, next, jumper"
+        :total="pages"
+      ></el-pagination>
     </div>
-        <div class="air_scoon"></div>
-    </div>
+    <div class="air_scoon"></div>
+  </div>
 </template>
 
 <script>
@@ -99,7 +99,7 @@ export default {
       showw: true,
       date: "",
       strNo: 1,
-      pages: 100,
+      pages: 100, //总条数
       queryQC: {
         provinceId: "", //省份
         createTime: "", //时间
@@ -110,28 +110,6 @@ export default {
         rows: []
       },
       value6: "",
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
-      ],
       value: "",
       tableData: []
     };
@@ -148,7 +126,7 @@ export default {
     handleCurrentChange(val) {
       var that = this;
       that.strNo = val;
-      that.province()
+      that.province();
       log(val);
     },
     //查询省份
@@ -181,6 +159,7 @@ export default {
         log(response.data, "查询数据");
         that.tableData = response.data.data.list;
         that.chartData.rows = response.data.data;
+        that.pages =  response.data.data.total
       });
     },
     showToggest() {
@@ -210,14 +189,14 @@ export default {
     province() {
       var that = this;
       var obj = {
-          strNo: that.strNo
-      }
+        strNo: that.strNo
+      };
       dataStaer.newUserList(obj).then(response => {
         log(response.data, "数据列表");
         var data = response.data.data.list;
         that.tableData = data;
         that.chartData.rows = that.tableData;
-        that.pages = response.data.data.total
+        that.pages = response.data.data.total;
       });
     }
   }

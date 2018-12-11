@@ -1,46 +1,33 @@
 <template>
-    <div class="role_manage">
-        <div class="role_new">
-            <div class="role_new_user" @click="dialogVisible = true">
-                <el-button type="primary" plain>新增角色</el-button>
-            </div>
-        </div>
-        <div class="tab_statc">
-            <div>
-                <el-table :data="tableData" style="width: 100%">
-                    <el-table-column label="编号" type="index" width="180">
-                    </el-table-column>
-                    <el-table-column prop="roleValue" label="角色">
-                    </el-table-column>
-                    <el-table-column prop="roleStatus" label="状态">
-                    </el-table-column>
-                    <el-table-column prop="descption" label="描述">
-                    </el-table-column>
-                    <el-table-column fixed="right" label="操作">
-                        <template slot-scope="scope">
-                        <el-button
-                          @click="handleClick(scope.$index,scope.row)"
-                          type="text"
-                          size="small">
-                          编辑
-                        </el-button>
-                                <el-button
-                          @click.native.prevent="editAuthority(scope.$index)"
-                          type="text"
-                          size="small">
-                          编辑权限
-                        </el-button>
-                                <el-button
-                          @click.native.prevent="deleteRow(scope.$index)"
-                          type="text"
-                          size="small">
-                          删除
-                        </el-button>
-</template>
-    </el-table-column>
-    </el-table>
-            </div>
-        </div>
+  <div class="role_manage">
+    <div class="role_new">
+      <div class="role_new_user" @click="dialogVisible = true">
+        <el-button type="primary" plain>新增角色</el-button>
+      </div>
+    </div>
+    <div class="tab_statc">
+      <div>
+        <el-table :data="tableData" style="width: 100%">
+          <el-table-column label="编号" type="index" width="180"></el-table-column>
+          <el-table-column prop="roleValue" label="角色"></el-table-column>
+          <el-table-column prop="roleStatus" label="状态"></el-table-column>
+          <el-table-column prop="descption" label="描述"></el-table-column>
+          <el-table-column fixed="right" label="操作">
+            <template slot-scope="scope">
+              <el-button @click="handleClick(scope.$index,scope.row)" type="text" size="small">编辑</el-button>
+              <el-button
+                @click.native.prevent="editAuthority(scope.$index)"
+                type="text"
+                size="small"
+              >编辑权限</el-button>
+              <el-button @click.native.prevent="deleteRow(scope.$index)" type="text" size="small">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+ 
+
         <!-- 分页器 -->
             <div class="paging">
       <el-pagination
@@ -149,6 +136,68 @@
     <el-button type="primary" @click="editUser">确 定</el-button>
   </span>
 </el-dialog>
+<!-- 编辑权限 -->
+<el-dialog
+  title="提示"
+  :visible.sync="roleEdit"
+  top="30vh"
+  width="40%"
+  :center="titeleC"
+  :before-close="handleClose">
+  <div class="role_edit_many">
+      <el-checkbox-group v-model="checkList">
+          <div class="edit_many_flex">
+              <div>
+            <el-checkbox label="首页"></el-checkbox>
+        </div>
+                <div>
+            <el-checkbox label="首页"></el-checkbox>
+        </div>                <div>
+            <el-checkbox label="首页"></el-checkbox>
+        </div>                <div>
+            <el-checkbox label="首页"></el-checkbox>
+        </div>                <div>
+            <el-checkbox label="首页"></el-checkbox>
+        </div>                <div>
+            <el-checkbox label="首页"></el-checkbox>
+        </div>                <div>
+            <el-checkbox label="首页"></el-checkbox>
+        </div>                <div>
+            <el-checkbox label="首页"></el-checkbox>
+        </div>
+          </div>
+    <!-- <el-checkbox label="用户管理"></el-checkbox>
+    <el-checkbox label="用户列表"></el-checkbox>
+    <el-checkbox label="用户详情列表"></el-checkbox>
+    <el-checkbox label="会员列表"></el-checkbox>
+    <el-checkbox label="会员统计"></el-checkbox>
+    <el-checkbox label="会员通知"></el-checkbox>
+    <el-checkbox label="数据统计"></el-checkbox>
+    <el-checkbox label="新用户统计"></el-checkbox>
+    <el-checkbox label="流失用户统计"></el-checkbox>
+    <el-checkbox label="财务管理"></el-checkbox>
+    <el-checkbox label="订单列表"></el-checkbox>
+    
+    <el-checkbox label="订单详情"></el-checkbox>
+    <el-checkbox label="财务对账"></el-checkbox>
+    <el-checkbox label="提现管理"></el-checkbox>
+    <el-checkbox label="权限管理"></el-checkbox>
+    <el-checkbox label="角色管理"></el-checkbox>
+    <el-checkbox label="员工列表"></el-checkbox>
+
+    <el-checkbox label="系统设置"></el-checkbox>
+    <el-checkbox label="用户协议设置"></el-checkbox>
+    <el-checkbox label="会员卡设置"></el-checkbox>
+    <el-checkbox label="综合管理"></el-checkbox>
+    <el-checkbox label="操作记录"></el-checkbox>
+    <el-checkbox label="主题管理"></el-checkbox> -->
+  </el-checkbox-group>
+  </div>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="roleEdit = false">取 消</el-button>
+    <el-button type="primary" @click="roleEdit = false">确 定</el-button>
+  </span>
+</el-dialog>
 <div class="air_csse"></div>
     </div>
 </template>
@@ -162,6 +211,8 @@ export default {
   data() {
     return {
       titeleC: true,
+      roleEdit: true,
+       checkList: ['复选框 A'],
       options: [
         {
           value: 0,
@@ -228,11 +279,7 @@ export default {
       var that = this;
       var roleName = that.roles;
       log(roleName, "创建角色");
-      if (
-        roleName.descption &&
-        roleName.roleValue &&
-        roleName.status !== ""
-      ) {
+      if (roleName.descption && roleName.roleValue && roleName.status !== "") {
         roleMany.newRole(roleName).then(response => {
           log(response.data, "返回数据");
           if (response.data.result == "0") {
@@ -400,6 +447,16 @@ export default {
   width: 100%;
   height: auto;
   margin-top: 200px;
+  .role_edit_many {
+      .edit_many_flex {
+          display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      div {
+          width: 150px;
+      }
+      }
+  }
   .air_csse {
     width: 100%;
     height: 300px;
