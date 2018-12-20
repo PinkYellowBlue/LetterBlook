@@ -26,180 +26,204 @@
         </el-table>
       </div>
     </div>
- 
 
-        <!-- 分页器 -->
-            <div class="paging">
+    <!-- 分页器 -->
+    <div class="paging">
       <el-pagination
-      background
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="strNo"
-      :page-size="10"
-      layout="total, prev, pager, next, jumper"
-      :total="pages">
-    </el-pagination>
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="strNo"
+        :page-size="10"
+        layout="total, prev, pager, next, jumper"
+        :total="pages"
+      ></el-pagination>
     </div>
-<!-- 新增角色 -->
-<el-dialog
-  title="新增角色"
-  :visible.sync="dialogVisible"
-  top="30vh"
-  width="30%"
-  :center=titeleC
-  :before-close="handleClose">
-  <div class="propr_flex_center">
-      <div class="flex_act">
-      <div class="title_tag">角色</div>
-  <div class="input_tag">
-    <el-input v-model="roles.roleValue" placeholder="请输入内容"></el-input>
-  </div>
-  </div>
-  </div>
-  <div class="propr_flex_center">
-      <div class="flex_state">
-      <div class="title_tag">状态</div>
-  <div class="input_tag">
- <el-select v-model="roles.status" placeholder="请选择">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
-    </el-option>
-  </el-select>  </div>
-  </div>
-  </div>
-    <div class="propr_flex_center">
-        <div class="flex_describe">
-      <div class="title_tag">描述</div>
-  <div class="input_tag">
- <el-input
-  type="textarea"
-  :rows="4"
-  placeholder="请输入内容"
-  v-model="roles.descption">
-</el-input>
-   </div>
-  </div>
-    </div>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="newUser">确 定</el-button>
-  </span>
-</el-dialog>
-<!-- 编辑角色 -->
-<el-dialog
-  title="编辑角色"
-  :visible.sync="editDialog"
-  top="30vh"
-  width="30%"
-  :center=titeleC
-  :before-close="handleClose">
-  <div class="propr_flex_center">
-      <div class="flex_act">
-      <div class="title_tag">角色</div>
-  <div class="input_tag">
-    <el-input v-model="roless.roleValue" placeholder="请输入内容"></el-input>
-  </div>
-  </div>
-  </div>
-  <div class="propr_flex_center">
-      <div class="flex_state">
-      <div class="title_tag">状态</div>
-  <div class="input_tag">
- <el-select v-model="roless.roleStatus" placeholder="请选择">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
-    </el-option>
-  </el-select>  </div>
-  </div>
-  </div>
-    <div class="propr_flex_center">
-        <div class="flex_describe">
-      <div class="title_tag">描述</div>
-  <div class="input_tag">
- <el-input
-  type="descption"
-  :rows="4"
-  placeholder="请输入内容"
-  v-model="roless.descption">
-</el-input>
-   </div>
-  </div>
-    </div>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="editDialog = false">取 消</el-button>
-    <el-button type="primary" @click="editUser">确 定</el-button>
-  </span>
-</el-dialog>
-<!-- 编辑权限 -->
-<el-dialog
-  title="提示"
-  :visible.sync="roleEdit"
-  top="30vh"
-  width="40%"
-  :center="titeleC"
-  :before-close="handleClose">
-  <div class="role_edit_many">
-      <el-checkbox-group v-model="checkList">
-          <div class="edit_many_flex">
-              <div>
-            <el-checkbox label="首页"></el-checkbox>
-        </div>
-                <div>
-            <el-checkbox label="首页"></el-checkbox>
-        </div>                <div>
-            <el-checkbox label="首页"></el-checkbox>
-        </div>                <div>
-            <el-checkbox label="首页"></el-checkbox>
-        </div>                <div>
-            <el-checkbox label="首页"></el-checkbox>
-        </div>                <div>
-            <el-checkbox label="首页"></el-checkbox>
-        </div>                <div>
-            <el-checkbox label="首页"></el-checkbox>
-        </div>                <div>
-            <el-checkbox label="首页"></el-checkbox>
-        </div>
+    <!-- 新增角色 -->
+    <el-dialog
+      title="新增角色"
+      :visible.sync="dialogVisible"
+      top="30vh"
+      width="30%"
+      :center="titeleC"
+      :before-close="handleClose"
+    >
+      <div class="propr_flex_center">
+        <div class="flex_act">
+          <div class="title_tag">角色</div>
+          <div class="input_tag">
+            <el-input v-model="roles.roleValue" placeholder="请输入内容"></el-input>
           </div>
-    <!-- <el-checkbox label="用户管理"></el-checkbox>
-    <el-checkbox label="用户列表"></el-checkbox>
-    <el-checkbox label="用户详情列表"></el-checkbox>
-    <el-checkbox label="会员列表"></el-checkbox>
-    <el-checkbox label="会员统计"></el-checkbox>
-    <el-checkbox label="会员通知"></el-checkbox>
-    <el-checkbox label="数据统计"></el-checkbox>
-    <el-checkbox label="新用户统计"></el-checkbox>
-    <el-checkbox label="流失用户统计"></el-checkbox>
-    <el-checkbox label="财务管理"></el-checkbox>
-    <el-checkbox label="订单列表"></el-checkbox>
-    
-    <el-checkbox label="订单详情"></el-checkbox>
-    <el-checkbox label="财务对账"></el-checkbox>
-    <el-checkbox label="提现管理"></el-checkbox>
-    <el-checkbox label="权限管理"></el-checkbox>
-    <el-checkbox label="角色管理"></el-checkbox>
-    <el-checkbox label="员工列表"></el-checkbox>
+        </div>
+      </div>
+      <div class="propr_flex_center">
+        <div class="flex_state">
+          <div class="title_tag">状态</div>
+          <div class="input_tag">
+            <el-select v-model="roles.status" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+      </div>
+      <div class="propr_flex_center">
+        <div class="flex_describe">
+          <div class="title_tag">描述</div>
+          <div class="input_tag">
+            <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="roles.descption"></el-input>
+          </div>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="newUser">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 编辑角色 -->
+    <el-dialog
+      title="编辑角色"
+      :visible.sync="editDialog"
+      top="30vh"
+      width="30%"
+      :center="titeleC"
+      :before-close="handleClose"
+    >
+      <div class="propr_flex_center">
+        <div class="flex_act">
+          <div class="title_tag">角色</div>
+          <div class="input_tag">
+            <el-input v-model="roless.roleValue" placeholder="请输入内容"></el-input>
+          </div>
+        </div>
+      </div>
+      <div class="propr_flex_center">
+        <div class="flex_state">
+          <div class="title_tag">状态</div>
+          <div class="input_tag">
+            <el-select v-model="roless.roleStatus" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+      </div>
+      <div class="propr_flex_center">
+        <div class="flex_describe">
+          <div class="title_tag">描述</div>
+          <div class="input_tag">
+            <el-input type="descption" :rows="4" placeholder="请输入内容" v-model="roless.descption"></el-input>
+          </div>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editDialog = false">取 消</el-button>
+        <el-button type="primary" @click="editUser">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 编辑权限 -->
+    <el-dialog
+      title="编辑权限"
+      :visible.sync="roleEdit"
+      top="30vh"
+      width="40%"
+      :center="titeleC"
+      :before-close="handleClose"
+    >
+      <div class="role_edit_many">
+        <el-checkbox-group v-model="checkList">
+          <div class="edit_many_flex">
+            <div>
+              <el-checkbox label="首页"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="用户管理"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="用户列表"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="用户详情列表"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="会员列表"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="会员统计"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="会员通知"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="数据统计"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="新用户统计"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="流失用户统计"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="财务管理"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="订单列表"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="订单详情"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="财务对账"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="提现管理"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="权限管理"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="角色管理"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="员工列表"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="系统设置"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="用户协议设置"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="会员卡设置"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="综合管理"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="操作记录"></el-checkbox>
+            </div>
+            <div>
+              <el-checkbox label="主题管理"></el-checkbox>
+            </div>
 
-    <el-checkbox label="系统设置"></el-checkbox>
-    <el-checkbox label="用户协议设置"></el-checkbox>
-    <el-checkbox label="会员卡设置"></el-checkbox>
-    <el-checkbox label="综合管理"></el-checkbox>
-    <el-checkbox label="操作记录"></el-checkbox>
-    <el-checkbox label="主题管理"></el-checkbox> -->
-  </el-checkbox-group>
+          </div>
+        </el-checkbox-group>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="roleEdit = false">取 消</el-button>
+        <el-button type="primary" @click="roleEditMany">确 定</el-button>
+      </span>
+    </el-dialog>
+    <div class="air_csse"></div>
   </div>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="roleEdit = false">取 消</el-button>
-    <el-button type="primary" @click="roleEdit = false">确 定</el-button>
-  </span>
-</el-dialog>
-<div class="air_csse"></div>
-    </div>
 </template>
 
 <script>
@@ -211,8 +235,8 @@ export default {
   data() {
     return {
       titeleC: true,
-      roleEdit: true,
-       checkList: ['复选框 A'],
+      roleEdit: false,
+      checkList: [],
       options: [
         {
           value: 0,
@@ -226,6 +250,7 @@ export default {
       value: "",
       input: "",
       textarea: "",
+      roleNN: "", //角色名字
       strNo: 1,
       pages: 100,
       roles: {
@@ -434,10 +459,36 @@ export default {
         }
       });
     },
-    //编辑权限
+    //点击编辑权限
     editAuthority(index) {
-      log(index, "权限");
+      let that = this
+      that.roleEdit = true
+      let a = that.tableData[index]
+      that.roleNN = a.descption
+        log(index,a, "权限");
+    },
+    //编辑角色权限
+    roleEditMany() {
+        let that = this
+        let arr = that.checkList
+        that.roleEdit = false
+        let b =  roleFilter.roleFilterex(arr)
+        log(b,'@@@@')
+        let formData = new FormData()
+        let a = {
+            roleValue : that.roleNN,
+            listRoleCode: b 
+        }
+        formData.append('roleValue', that.roleNN)
+        b.forEach(e => {
+            formData.append('listRoleCode', e)
+        });
+        roleMany.roleEditEX(formData)
+        .then(response => {
+            log(response.data,'返回数据###')
+        })
     }
+
   }
 };
 </script>
@@ -448,14 +499,15 @@ export default {
   height: auto;
   margin-top: 200px;
   .role_edit_many {
-      .edit_many_flex {
-          display: flex;
+      
+    .edit_many_flex {
+      display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
       div {
-          width: 150px;
+        width: 150px;
       }
-      }
+    }
   }
   .air_csse {
     width: 100%;

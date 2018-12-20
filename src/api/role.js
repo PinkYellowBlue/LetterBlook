@@ -33,3 +33,11 @@ export function deletRole(editRole) {
     data: Qs.stringify(editRole)
   })
 }
+// 编辑权限
+export function roleEditEX(editRole) {
+  return request({
+    url: 'cms/sysRole/roleDeOrAdd',
+    method: 'post',
+    data: editRole
+  })
+}

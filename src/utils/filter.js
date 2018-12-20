@@ -122,3 +122,47 @@ export function fourFilter(value) {
   var newValue = dataKey[value];
   return newValue;
 }
+//编辑权限
+export function roleFilterex(value) {
+  let newValue = []
+  var dataKey = {
+    "首页": "index",
+    "用户管理": "userCode",
+    "用户列表": "userListCode",
+    "用户详情列表": "userDetailsCode",
+    "会员列表": "memberCode",
+    "会员统计": "memCountCode",
+    "会员通知": "memNotice",
+    "数据统计": "statisticsCode",
+    "流失用户统计": "lostPeopleCode",
+    "财务管理": "orderCode",
+    "订单列表": "getOrderListCode",
+    "订单详情": "userListCode",
+    "财务对账": "reconciliationCode",
+    "权限管理": "sysRoleCode",
+    "角色管理": "jurisdictionCode",
+    "员工列表": "employeeManagementListCode",
+    "系统设置": "systemCode",
+    "用户协议设置": "userAgreementCode",
+    "会员卡设置": "vipCode",
+    "综合管理": "comprehensiveCode",
+    "操作记录": "operationCode",
+    "主题管理": "themeCode",
+  };
+  for (let i = 0; i < value.length; i++) {
+    let e = value[i];
+    newValue.push(dataKey[e])
+    
+  }
+  return newValue;
+}
+//会员卡类型
+export function cardFilter(value) {
+  var dataKey = {
+    "LETTER_VIP_MONTH": "月卡会员",
+    "LETTER_VIP_QUARTER": "季卡会员",
+    "LETTER_VIP_YEAR": "年卡会员",
+  };
+  var newValue = dataKey[value];
+  return newValue;
+}

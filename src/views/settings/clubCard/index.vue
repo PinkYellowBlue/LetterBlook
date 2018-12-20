@@ -1,127 +1,67 @@
 <template>
-    <div class="club_card_many">
-        <div class="club_card_sace">
-            <div class="club_card_sace_settings">
-                <div class="sace_settings_title">会员卡设置</div>
-            </div>
-            <div class="card_number">
-                <div class="card_number_three"> 
-                    <div class="card_number_three_title">月卡</div>
-                    <div class="card_number_three_input">
-                        <el-input v-model="input" placeholder="请输入内容"></el-input>
-                    </div>
-                    <div class="card_number_three_tex">
-                        <el-input
-                            type="textarea"
-                            :rows="4"
-                            placeholder="请输入内容"
-                             v-model="textarea">
-                        </el-input>
-                    </div>
-                </div>
-                <div class="card_number_three"> 
-                    <div class="card_number_three_title">季卡</div>
-                    <div class="card_number_three_input">
-                        <el-input v-model="input" placeholder="请输入内容"></el-input>
-                    </div>
-                    <div class="card_number_three_tex">
-                        <el-input
-                            type="textarea"
-                            :rows="4"
-                            placeholder="请输入内容"
-                             v-model="textarea">
-                        </el-input>
-                    </div>
-                </div>
-                <div class="card_number_three"> 
-                    <div class="card_number_three_title">年卡</div>
-                    <div class="card_number_three_input">
-                        <el-input v-model="input" placeholder="请输入内容"></el-input>
-                    </div>
-                    <div class="card_number_three_tex">
-                        <el-input
-                            type="textarea"
-                            :rows="4"
-                            placeholder="请输入内容"
-                             v-model="textarea">
-                        </el-input>
-                    </div>
-                </div>
-            </div>
-            <div class="card_number_button">
-                  <el-button type="primary" plain>保 存</el-button>
-
-            </div>
-        </div>
+  <div class="clubCard_many">
+    <div class="clubCard_many_cent">
+      <el-table :data="CardList" style="width: 100%">
+        <el-table-column prop="sysKey" label="会员类型"></el-table-column>
+        <el-table-column prop="sysValue" label="金额"></el-table-column>
+        <el-table-column prop="sysDec" label="说明"></el-table-column>
+        <el-table-column fixed="right" label="操作">
+          <template slot-scope="scope">
+            <el-button @click.native.prevent="editStaff(scope.$index)" type="text" size="small">编辑</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
+   
+  </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                input: '',
-                textarea: ''
-            }
-        }
-        
-    }
+const log = console.log.bind(console);
+import * as cardMany from "@/api/cardED";
+import * as cardFilter from "@/utils/filter";
+import Vue from "vue"
+export default {
+  data() {
+    return {
+        CardList: [
+
+        ]
+    };
+  },
+  created: function() {
+      this.cardListN()
+  },
+  methods: {
+      cardListN() {
+          let that = this
+        cardMany.cardList()
+        .then( response => {
+            let newArr = response.data.data
+            newArr.forEach(e => {
+                 let newName = cardFilter.cardFilter(e.sysKey)
+                 let newMoney = cardFilter.dealMoney(e.sysValue)
+                 Vue.set(e, 'sysKey', newName)
+                 Vue.set(e, 'sysValue', newMoney)
+            });
+            that.CardList = newArr
+            log(response.data,'返回的数据')
+        })
+      }
+  }
+};
 </script>
 
-<style lang="scss" scoped>
-    .club_card_many {
-        margin-top: 200px;
-        width: 100%;
-        height: auto;
-        display: flex;
-        justify-content: center;
-        .club_card_sace {
-            width: 1200px;
-            height: 700px;
-            border: 1px solid #dcdcdc;
-            margin-top: 30px;
-            .club_card_sace_settings {
-                width: 1200px;
-                height: 100px;
-                border-bottom: 1px solid #dcdcdc;
-                display: flex;
-                align-items: center;
-                .sace_settings_title {
-                    font-size: 30px;
-                    font-weight: 700;
-                    margin-left: 20px;
-                }
-            }
-        .card_number {
-            width: 1100px;
-            .card_number_three {
-                margin-top: 20px;
-                margin-left: 20px;
-                width: 1100px;
-                height: auto;
-                display: flex;
-                justify-content: space-between;
-                .card_number_three_title {
-                    font-size: 20px;
-                    font-weight: 700;
-                    margin-top: 8px;
-                }
-                .card_number_three_input {
-                    width: 300px;
-                }
-                .card_number_three_tex {
-                    width: 300px;
-                }
-            }
-        }
-        .card_number_button {
-            width: 1200px;
-            text-align: center;
-            margin-top: 50px;
-            button {
-                width: 100px;
-            }
-        }
-        }
-    }
+<style scoped lang="scss">
+.clubCard_many {
+  margin-top: 200px;
+  width: 100%;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  .clubCard_many_cent {
+    width: 100%;
+    height: auto;
+  }
+}
 </style>
