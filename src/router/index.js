@@ -566,6 +566,42 @@ export const asyncRouterMap = [{
 
     ]
   },
+  {
+    path: '/merchant',
+    component: Layout,
+    redirect: '/operating',
+    name: 'merchant',
+    meta: {
+      title: '预约审核',
+      icon: 'syn',
+      roles: ['merchantt']
+    },
+    children: [{
+        path: '/dataList',
+        name: 'dataList',
+        component: () =>
+          import('@/views/appointment/dataList/index'),
+        meta: {
+          title: '预约列表',
+          icon: 'backstage',
+          roles: ['admin']
+        }
+
+      },
+      // {
+      //   path: '/theme',
+      //   name: 'Theme',
+      //   component: () =>
+      //     import('@/views/manage/theme/index'),
+      //   meta: {
+      //     title: '主题管理',
+      //     icon: 'theme',
+      //     roles: ['admin']
+      //   }
+      // }
+
+    ]
+  },
 
   {
     path: '*',

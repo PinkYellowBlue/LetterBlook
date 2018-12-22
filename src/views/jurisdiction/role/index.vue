@@ -234,6 +234,7 @@ import Vue from "vue";
 export default {
   data() {
     return {
+      str: '',
       titeleC: true,
       roleEdit: false,
       checkList: [],
@@ -449,6 +450,8 @@ export default {
       var that = this;
       var deletNum = that.tableData;
       let num = deletNum[index].id;
+      let formData = new FormData()
+      formData.append('id',num)
       let n = {
         id: num
       };
@@ -475,15 +478,17 @@ export default {
         let b =  roleFilter.roleFilterex(arr)
         log(b,'@@@@')
         let formData = new FormData()
-        let a = {
-            roleValue : that.roleNN,
-            listRoleCode: b 
-        }
         formData.append('roleValue', that.roleNN)
         b.forEach(e => {
-            formData.append('listRoleCode', e)
+            that.str += e + ','
+            log(that.str,'%^^')
         });
-        roleMany.roleEditEX(formData)
+        let a = {
+            roleValue : that.roleNN,
+            listRoleCode: b
+        }
+        log(that.str,'str是什么')
+        roleMany.roleEditEX(a)
         .then(response => {
             log(response.data,'返回数据###')
         })
