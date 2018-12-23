@@ -48,17 +48,22 @@
             <el-button type="primary" plain @click="clickQ">查 询</el-button>
           </div>
         </div>
-        <div class="tabe_list">
+        
+      </div>
+        
+
+    </div>
+    <div class="tabe_list">
           <div>
             <el-table :data="tableData" style="width: 100%">
               <el-table-column label="发起" prop="roleValues"></el-table-column>
-              <el-table-column prop="roleValue" label="主题"></el-table-column>
-              <el-table-column prop="roleStatus" label="开始"></el-table-column>
+              <el-table-column prop="themeId" label="主题"></el-table-column>
+              <el-table-column prop="startTime" label="开始"></el-table-column>
               <el-table-column prop="roleStatuss" label="结束"></el-table-column>
               <el-table-column prop="descption" label="小时"></el-table-column>
-              <el-table-column prop="descptions" label="具体地址"></el-table-column>
-              <el-table-column prop="descptionss" label="限制人数 "></el-table-column>
-              <el-table-column prop="descptionsss" label="状态"></el-table-column>
+              <el-table-column prop="address" label="具体地址"></el-table-column>
+              <el-table-column prop="peopleCount" label="限制人数 "></el-table-column>
+              <el-table-column prop="releaseState" label="状态"></el-table-column>
               <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                   <el-button
@@ -76,22 +81,33 @@
             </el-table>
           </div>
         </div>
-      </div>
-    </div>
+        <!-- <div class="paging">
+      <el-pagination
+      background
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="page"
+      :page-size="2"
+      layout="total, prev, pager, next, jumper"
+      :total="pages">
+    </el-pagination>
+    </div> -->
+    <div class="margin_top"></div>
   </div>
 </template>
 
 <script>
 const log = console.log.bind(console);
 import * as subscribe from "@/api/appointment";
+import * as filter from "@/utils/filter";
 export default {
   data() {
     return {
         Submission: {
-            prom: '',
-            cityy: '',
-            dateS: '',
-            dateE: '',
+            provinceCode: '',
+            cityCode: '',
+            startTime: '',
+            endTime: '',
         },
       options: [
         {
@@ -140,30 +156,34 @@ export default {
       proo(pro) {
           log(pro,'sss')
           let that = this
-          that.Submission.prom = pro
+          that.Submission.provinceCode = pro
       },
       citt(cityEx) {
           log(cityEx,'WWWW')
           let that = this
-          that.Submission.cityy = cityEx
+          that.Submission.cityCode = cityEx
       },
     clickQ() {
       let that = this;
-      
       if (that.dateQ == null) {
-          that.dateQ = ''
+          that.Submission.startTime = ''
+          that.Submission.endTime = ''
       }
       if (that.dateQ !== null) {
-          that.Submission.dateS = that.dateQ[0]
-          that.Submission.dateE = that.dateQ[1]
+          that.Submission.startTime = that.dateQ[0]
+          that.Submission.endTime = that.dateQ[1]
       }
+      that.SubscribeList()
       log(that.Submission, "有没有值");
     },
     SubscribeList() {
         let that = this
-        subscribe.cardList()
+        let data = that.Submission
+        subscribe.cardList(data)
         .then( response => {
             log(response.data,'返回数据')
+            let data = response.data.data.list
+            
         })
     }
 
@@ -231,5 +251,18 @@ export default {
       }
     }
   }
+  .tabe_list {
+    margin-top: 50px;
+  }
+  .paging {
+      width: 98%;
+      display: flex;
+      margin-top: 30px;
+      justify-content: center;
+    }
+    .margin_top {
+      width: 100%;
+      height: 300px;
+    }
 }
 </style>

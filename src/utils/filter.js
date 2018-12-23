@@ -35,6 +35,17 @@ export function stateFilter(value) {
   var newValue = dataKey[value];
   return newValue;
 }
+//预约状态
+export function appointmentFilter(value) {
+  var dataKey = {
+    "1": "审核",
+    "2": "废弃",
+    "3": "发布",
+    "4": "删除"
+  };
+  var newValue = dataKey[value];
+  return newValue;
+}
 //支付方式
 export function paymentFilter(value) {
   var dataKey = {
