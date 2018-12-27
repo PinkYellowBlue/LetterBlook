@@ -3,17 +3,7 @@
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="artid" label="ID" min-width="10%"></el-table-column>
       <el-table-column prop="arttitle" label="标题" min-width="10%"></el-table-column>
-      <el-table-column label="标题图" min-width="12%">
-	      	<!-- <img :src="" alt="" class="imgp" > -->
-                   <template slot-scope="scope">
-              <img :src="scope.row.artpic" width="40" height="40" alt="yyy" >
-         </template>
-				</el-table-column>
-      <el-table-column prop="arttime" label="创建时间" min-width="12%"></el-table-column>
-      <el-table-column prop="artpro" label="省份" min-width="12%"></el-table-column>
-      <el-table-column prop="artcity" label="城市" min-width="12%"></el-table-column>
-      <el-table-column prop="artthe" label="主题" min-width="12%"></el-table-column>
-      <el-table-column prop="artshow" label="是否显示" min-width="12%"></el-table-column>
+      <el-table-column prop="arttime" label="提交时间" min-width="12%"></el-table-column>
       <el-table-column prop="artstatus" label="审核状态" min-width="12%"></el-table-column>
       <el-table-column fixed="right" label="操作" min-width="15%">
       <template slot-scope="scope">

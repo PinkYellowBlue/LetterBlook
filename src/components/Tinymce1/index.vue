@@ -1,51 +1,11 @@
 <template>
 <div>  <div class='tinymce'>
-    <!-- <h1>tinymce</h1>  -->
-           <!-- <el-button type="primary" @click="chose" id="chose">选择文件 -->
-   <!-- <div class="chose">
-     <span>上传图片</span>
-      <el-upload
-              class="avatar-uploader"
-              :action="imgUrlEx"
-              ref="newuploadti"
-              :show-file-list="false"
-              :auto-upload="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-              name="file"
-              :data="datadata"
-              id="touxiang">
-              <img v-if="false" :src="false" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-      </el-upload> -->
-       <!-- <input type="file" @click="tirggerFile($event)" id="se" action="http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage">             -->
-    <!-- </div> -->
-             <!-- </el-button>  -->
-           <!-- <img v-if="imgurl" :src="imgurl" alt="嘤嘤嘤" style="width:100px;height:100px;"> -->
-    
     <editor v-model='tinymceHtml' :init='init' class="input_f">
 
     </editor>
     <el-button type="primary" style="margin-top:10px;" @click="confirm">确认</el-button>
-    <!-- <div v-html='tinymceHtml'></div> -->
-  </div>      
-  <!-- <div class="tanchu" v-show="show">
 
-    <div class="top"><span>本地图片上传</span><i class="el-icon-close" @click="show=fasle"></i></div>
-    <div>
-        <el-upload
-    class="avatar-uploader"
-    action="https://jsonplaceholder.typicode.com/posts/"
-    :show-file-list="false"
-    :on-success="handleAvatarSuccess"
-    :before-upload="beforeAvatarUpload">
-    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-    </el-upload>
-    </div>
-    <el-button type="primary">确定</el-button>
-    <el-button type="" @click="show=fasle">取消</el-button>
-  </div> -->
+  </div>      
 </div>
   
 </template>
@@ -70,13 +30,14 @@ import 'tinymce/plugins/textcolor'
 import * as shopMany from "@/api/shop";
 // import 'jquery'
 export default {
-  name: 'tinymce',
+  name: 'tinymce1',
   data () {
     return {
       datadata:{
         id:"39",
         typeid:"8"
       },
+      props:['value'],
       show:false,
       imgurl:'',
       imageUrl:"",
@@ -91,10 +52,10 @@ export default {
       //   }
       // },
       imgUrlEx: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
-      tinymceHtml: '请输入内容',
+      
       init: {
         images_upload_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
-        upload_image_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
+        // upload_image_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
         language_url: '../../static/tinymce4.7.5/langs/zh_CN.js',
         language: 'zh_CN',
         skin_url: '../../static/tinymce4.7.5/skins/lightgray',
@@ -106,14 +67,15 @@ export default {
           'preview bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | undo redo | link unlink code imageupload image| removeformat',
         autosave_interval: "20s",
         image_advtab: true,
-        imageupload_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage', // 接收图片的后端地址
-        
+        // imageupload_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage', // 接收图片的后端地址
         table_default_styles: {
             width: "100%",
             borderCollapse: "collapse"
         },
-  images_upload_handler:(blobInfo, success, failure) => {
-    let datadata = this.datadata;
+        
+
+          images_upload_handler:(blobInfo, success, failure) => {
+            let datadata = this.datadata;
              let fd = new FormData()
              console.log("$$$4");
              fd.append("id",datadata.id);
@@ -125,17 +87,95 @@ export default {
               success(res.data.data[0].imgUrl)
               // success("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2171717409,2602158110&fm=26&gp=0.jpg");
             })
+            //  fd.append('file',blobInfo.blob())
+            //  uploadRichImg(fd).then(res => {
+            //    let result = res.data[0]
+            //    success(result.url)
+            //    })
+            //    .catch(err => {
+
+            //    })
+
            }
       }
     }
   },
+  computed:{
+    tinymceHtml:{
+      get:function () {
+        return this.value;
+      },
+      set:function (value) {
+        this.$emit('input',value);
+      }
+    }
+  },
   methods:{
+//     tirggerFile : function (event) {
+//       const file = event.srcElement.files[0];
+//        console.log(file); 
+//       this.imgurl = window.URL.createObjectURL(file);
+//       console.log(this.imgurl); 
+//       // $("#imgContent").attr('src', imgurl);
+//         const _this = this;
+//            console.log(_this.imgurl);
+//     // window.tinymce.get(_this.tinymce).insertContent(`<img class="wscnph" src="${_this.imgurl}" >`)
+//        this.tinymceHtml+=`<img id='imgContent' src="${_this.imgurl}" alt="嘤嘤嘤" style="width:200px;height:200px;">`;
+//        console.log(this.tinymceHtml);
+//       // document.getElementById("#tinymce").tinymce
+// },
+//       // chose:function(){
+//       //     // this.tirggerFile();
+//       //     document.getElementById("#se").click();
+//       //     console.log('嘤嘤嘤');
+//       // },
+//       handleAvatarSuccess(res, file) {
+//         this.imageUrl = URL.createObjectURL(file.raw);
+//         console.log(file,"shangchuan1111");
+//       },
       confirm(){
         let that = this
         console.log(that.tinymceHtml);
         var c1=that.tinymceHtml;
         that.$emit("cc",c1);
       },
+      // beforeAvatarUpload(file) {
+      //   // const isJPG = file.type === 'image/jpeg';
+      //   // const isLt2M = file.size / 1024 / 1024 < 2;
+
+      //   // if (!isJPG) {
+      //   //   this.$message.error('上传头像图片只能是 JPG 格式!');
+      //   // }
+      //   // if (!isLt2M) {
+      //   //   this.$message.error('上传头像图片大小不能超过 2MB!');
+      //   // }
+      //   // return isJPG && isLt2M;
+      //     console.log(file,"shangchuan");
+          
+      //     // let that = this
+      //     // log(that.MessageId,'sasasass')
+      //     // that.tweData.id = that.MessageId
+      // },
+    //       imageSuccessCBK(arr) {
+    //        const _this = this
+    //       arr.forEach(v => {
+    //         console.log(_this.tinymceHtml)
+    //       window.tinymce.get(_this.tinymceHtml).insertContent(`<img class="wscnph" src="${v.url}" >`)
+    //   } )
+    // }
+      // initContent1(){
+      //   let that = this
+      //   let pinpai = that.pinpai
+      //   console.log(pinpai,"品牌品牌");
+        
+      //   that.tinymceHtml = pinpai
+      // },
+      // initContent2(){
+      //   let that = this
+      //   let fuwu = that.fuwu
+      //   that.tinymceHtml = fuwu
+      // }       
+      
   },
   created(){
     // this.initContent1()

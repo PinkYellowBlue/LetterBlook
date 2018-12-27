@@ -27,6 +27,7 @@ const user = {
   actions: {
     // 登录
     Login({ commit }, userInfo) {
+      console.log(userInfo,'参数聚合11111');
       const username = userInfo.username.trim()
       var userr = userInfo.password
       var userq = {
