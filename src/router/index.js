@@ -1,4 +1,4 @@
-import Vue from 'vue'
+﻿import Vue from 'vue'
 import Router from 'vue-router'
 
 // in development-env not use lazy-loading, because lazy-loading too many pages will cause webpack hot update too slow. so only in production use lazy-loading;
@@ -585,6 +585,41 @@ export const asyncRouterMap = [{
           roles: ['admin']
         }
       }
+
+    ]
+  },
+  { 
+		path: '/shop',
+    component: Layout,
+    redirect: '/shoplist',
+    name: 'shoplist',
+    meta: {
+      title: '商家管理',
+      icon: 'shopde',
+      // roles: ['statisticsCode']
+    },
+    children: [
+      {
+        path: '/shoplist',
+				name: 'shoplist',
+        component: () => import('@/views/shop/shoplist/index'),
+        meta: {
+          title: '商家列表',
+          icon: 'shopde',
+          // roles: ['lostPeopleCode']
+        }
+      },
+      {
+        path: '/shopdetails/:id(\\d+)',
+				name: 'shopdetails',
+        component: () => import('@/views/shop/shopdetails/index'),
+        meta: {
+          title: '商家详情',
+          icon: 'shopde',
+          noCache: true
+        },
+        hidden: true
+      },
 
     ]
   },

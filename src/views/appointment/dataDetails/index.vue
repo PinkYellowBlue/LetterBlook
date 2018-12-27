@@ -98,7 +98,7 @@
                       <el-button type="primary" @click="dialogVisible=true">审核预约</el-button>
                   </div>
                   <div class="">
-                      <el-button type="danger"@click="black">返回列表</el-button>
+                      <el-button type="danger" @click="black">返回列表</el-button>
                   </div>
               </div>
 
