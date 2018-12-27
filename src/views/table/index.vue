@@ -199,7 +199,7 @@ export default {
       log(obj, "订单号");
       localStorage.setItem("id", id); //本地保存订单
       that.$router.push({
-        path: "example/userDataails",
+        path: "/userDataails",
         query: {
           paperId: id
         }

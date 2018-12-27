@@ -177,3 +177,22 @@ export function cardFilter(value) {
   var newValue = dataKey[value];
   return newValue;
 }
+// 费用
+export function fedFilter(value) {
+  var dataKey = {
+    "0": "免费",
+    "1": "AA",
+  };
+  var newValue = dataKey[value];
+  return newValue;
+}
+//性别
+export function sexFilterex(value) {
+  var dataKey = {
+    "0": "不限制",
+    "1": "女",
+    "2": "男",
+  };
+  var newValue = dataKey[value];
+  return newValue;
+}

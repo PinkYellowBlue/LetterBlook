@@ -43,22 +43,33 @@ export const constantRouterMap = [{
         component: () => import('@/views/dashboard/index')
       },
       {
-        path: 'userDataails',
+        path: '/userDataails',
         name: 'userDataails',
         component: () =>
           import('@/views/userDataails/index'),
+          hidden: true,
         meta: {
           title: '会员详情',
           icon: 'vipmess'
         }
       },
       {
-        path: 'orderDetails',
+        path: '/orderDetails',
         name: 'orderDetails',
         component: () => import('@/views/finance/orderDetails/index'),
         hidden: true,
         meta: {
           title: '订单详情',
+          icon: 'ordermess'
+        }
+      },
+      {
+        path: '/appointDetails',
+        name: 'appointDetails',
+        component: () => import('@/views/appointment/dataDetails/index'),
+        hidden: true,
+        meta: {
+          title: '预约详情',
           icon: 'ordermess'
         }
       },
@@ -346,6 +357,17 @@ export const asyncRouterMap = [{
           roles: ['userListCode']
         }
       },
+      //  {
+      //    path: '/userDataails',
+      //    name: 'userDataails',
+      //    component: () =>
+      //      import('@/views/userDataails/index'),
+      //    meta: {
+      //      title: '会员详情',
+      //      icon: 'vipmess',
+      //      roles: ['userListCode']
+      //    }
+      //  },
       {
         path: '/tree',
         name: 'Tree',
