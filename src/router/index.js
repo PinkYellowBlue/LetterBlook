@@ -31,16 +31,24 @@ export const constantRouterMap = [{
     component: () => import('@/views/404'),
     hidden: true
   },
-
+// @ / views / table / index
   {
+    // path: '/',
+    // component: Layout,
+    // redirect: '/dashboard',
+    // name: '首页',
+    // hidden: true,
+    // children: [{
+    //     path: 'dashboard',
+    //     component: () => import('@/views/dashboard/index')
     path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    name: '首页',
-    hidden: true,
-    children: [{
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index')
+      component: Layout,
+      redirect: '/dashboard',
+      name: '首页',
+      hidden: true,
+      children: [{
+          path: 'dashboard',
+          component: () => import('@/views/table/index')
       },
       {
         path: '/userDataails',
@@ -347,16 +355,17 @@ export const asyncRouterMap = [{
       icon: 'user',
       roles: ['userCode']
     },
-    children: [{
-        path: '/table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: {
-          title: '用户列表',
-          icon: 'table',
-          roles: ['userListCode']
-        }
-      },
+    children: [
+      // {
+      //   path: '/table',
+      //   name: 'Table',
+      //   component: () => import('@/views/table/index'),
+      //   meta: {
+      //     title: '用户列表',
+      //     icon: 'table',
+      //     roles: ['userListCode']
+      //   }
+      // },
       //  {
       //    path: '/userDataails',
       //    name: 'userDataails',
@@ -591,12 +600,12 @@ export const asyncRouterMap = [{
   {
     path: '/merchant',
     component: Layout,
-    redirect: '/operating',
+    redirect: '/dataList',
     name: 'merchant',
     meta: {
       title: '预约审核',
       icon: 'syn',
-      roles: ['merchantt']
+      roles: ['subscribeList']
     },
     children: [{
         path: '/dataList',
@@ -606,7 +615,7 @@ export const asyncRouterMap = [{
         meta: {
           title: '预约列表',
           icon: 'backstage',
-          roles: ['admin']
+          roles: ['subscribeList']
         }
 
       },
