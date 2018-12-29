@@ -2,7 +2,7 @@
  <div class="shop_details">
       <div class="shop_info">
         <div class="shop_naph">
-          <el-input placeholder="请输入店名" v-model="info.name" :rules="[{ required: true, message: '商家店名不能为空',trigger: 'blur'}]">
+          <el-input placeholder="请输入店名" v-model="info.name" clearable>
             <template slot="prepend">商家店名</template>
           </el-input>
           <div class="chose">
@@ -12,7 +12,7 @@
             <!-- <img v-if="imageUrl" :src="imageUrl" alt="嘤嘤嘤" style="width:100px;height:100px;"> -->
             <label for="touxiang">上传商家头像:</label><el-upload
               class="avatar-uploader"
-              action="imgUrlEx"
+              :action="imgUrlEx"
               ref="newupload"
               :show-file-list="false"
               :auto-upload="false"
@@ -26,15 +26,37 @@
 
           </div>
         </div>
+                <div class="cityse" style="display: flex;justify-content:flex-start;"> 
+             <provincial-cities @provinceer="p" @cityer="c"></provincial-cities>
+            <div>
+            <el-select v-model="ququ" placeholder="请选择区" style="width:200px;">
+            <el-option
+                v-for="item in qu"
+                :key="item.areaId"
+                :label="item.areaName"
+                :value="item.areaCode">
+            </el-option>
+            </el-select>
+            </div>          
+        </div>
+         <div style="margin-top:20px"><el-input placeholder="请输入经度" style="width:200px" v-model="info.longitude"><template slot="prepend">经度</template></el-input>
+        <el-input placeholder="请输入纬度" style="width:200px;margin:0 20px" v-model="info.latitude"><template slot="prepend">纬度</template></el-input>
+        <a href="http://www.gpsspg.com/maps.htm" target="view_window">点击此处获得经纬度</a></div>
+
         <!-- <el-input placeholder="请输入分店名（没有可不填）" v-model="input3">
           <template slot="prepend">商家分店名</template>
         </el-input> -->
-        <el-input placeholder="请输入商家描述（一句话）" v-model="info.remark">
+        <el-input placeholder="请输入商家描述（一句话）" v-model="info.remark" clearable>
           <template slot="prepend">商家描述</template>
         </el-input>  
-        <!-- <el-input placeholder="请输入商家详细地址" v-model="input3">
-          <template slot="prepend">详细地址</template>
-        </el-input>  -->
+          <!-- <el-select v-model="themeid" placeholder="请选择主题" style="margin-bottom:30px">
+            <el-option
+              v-for="item in theme"
+              :key="item.id"
+              :label="item.themeName"
+              :value="item.id">
+            </el-option>
+          </el-select> -->
         <el-button type="primary" @click="send" v-show="isex">确定</el-button>   
       </div>
     <div v-show="newuser">
@@ -46,8 +68,8 @@
           </el-date-picker>
           <label for="count">请输入员工数量：</label><el-input v-model="input3" placeholder="请输入员工数量" id="count" style="width:200px;"></el-input>  
            <label for="area">请输入门店面积：</label><el-input v-model="input3" placeholder="请输入门店面积" id="area" style="width:200px;"></el-input>   -->
-        <div><el-input placeholder="(例)员工数量" style="width:200px;" v-model="nameinfo" label="操作"></el-input>
-        <el-input placeholder="100" style="width:200px;" v-model="remarkinfo"></el-input>
+        <div><el-input placeholder="(例)员工数量" style="width:200px;" v-model="nameinfo" label="操作" clearable></el-input>
+        <el-input placeholder="100" style="width:200px;" v-model="remarkinfo" clearable></el-input>
         <el-button type="primary" @click="addinfo" >确定</el-button></div>
               <el-table
               stripe
@@ -86,6 +108,7 @@
             :on-remove="handleRemove"
             :file-list="fileList1"
             :limit=6
+            :multiple="true"
             :data="tweData"
             :on-exceed="warn"
             :before-upload="beforeAvatarUploadTwe"
@@ -95,7 +118,7 @@
             <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
           </el-upload>
         </div>
-        <div style="margin-left:20px; margin-bottom:20px;">
+        <!-- <div style="margin-left:20px; margin-bottom:20px;">
           <label for="ting">请上传大厅环境照片：</label><el-upload
             class="upload-demo"
             :action="imgUrlExO"
@@ -107,12 +130,12 @@
             :data="threeData"
             :on-exceed="warn"
             list-type="picture">
-            <el-button size="small" type="primary">点击上传</el-button>
+            <el-button size="small" type="primary">点击上传</el-button> -->
             <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
-          </el-upload>
-        </div>
+          <!-- </el-upload>
+        </div> -->
         <div class="pro_photo">
-          <label for="ting">请上传产品照片：</label><el-upload
+          <label for="ting">请上传商家环境照片：</label><el-upload
             class="upload-demo"
             :action="imgUrlExO"
             :on-preview="handlePreview"
@@ -120,14 +143,15 @@
             :before-upload="beforeAvatarUploadFour"
             :file-list="fileList3"
             :data="fourData"
-            :limit=6
+            :limit=9
+            :multiple="true"
             :on-exceed="warn"
             list-type="picture">
             <el-button size="small" type="primary">点击上传</el-button>
             <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
           </el-upload>
         </div>
-        <div>
+        <!-- <div>
           <label for="ting">请上传室内照片：</label><el-upload
             class="upload-demo"
             :action="imgUrlExO"
@@ -139,14 +163,14 @@
             :data="fiveData"
             :on-exceed="warn"
             list-type="picture">
-            <el-button size="small" type="primary">点击上传</el-button>
+            <el-button size="small" type="primary">点击上传</el-button> -->
             <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
-          </el-upload>
-        </div>
+          <!-- </el-upload>
+        </div> -->
       </div>
       <div class="shop_story">
-        <div><label for="story">品牌故事：</label><tinymce id="story"  @cc="con" style="margin-top:20px" ></tinymce></div>
-        <div><label for="serve">服务理念：</label><tinymce1 id="serve" @input="con1" style="margin-top:20px"   v-model="this.fuwu.remark"></tinymce1></div>
+        <div><label for="story">品牌故事：</label><tiny-mce id="story"  @cc="con" style="margin-top:20px"  :remark="this.pinpai.ramark"></tiny-mce></div>
+        <div><label for="serve">服务理念：</label><tiny-mcee id="serve" @cc="con1" style="margin-top:20px"  :remark="this.fuwu.ramark"></tiny-mcee></div>
       </div>
             <el-button type="primary"  @click="shit"> 确定提交 </el-button>
     </div>
@@ -163,7 +187,10 @@ import { getToken} from '@/utils/auth'
 import Qs from 'qs'
 import Vue from "vue";
 export default {
-  components: { Tinymce,Tinymce1},
+  components: { 
+    "tiny-mce":Tinymce,
+    "tiny-mcee":Tinymce1
+    },
  data() {
  return {
      dateW: {
@@ -173,9 +200,9 @@ export default {
     isex:true,
    largefieldAttributes:[],
 //    content:"",
-    imgUrlEx: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/addMerchantInformation',
+    imgUrlEx: 'http://cms.letterbook.cn/letter-cms/cms/merchantInformation/addMerchantInformation',
     newuser:false,
-    imgUrlExO: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
+    imgUrlExO: 'http://cms.letterbook.cn/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
     code:"",
    remarkinfo:"",
    nameinfo:"",
@@ -200,8 +227,11 @@ export default {
    info:{
      name:"",
      remark:"",
-     token:""
+     token:"",
+     longitude:"",
+     latitude:""
     },
+    shitEx: '32',
     file:"",
    imageUrl:"",
    value1:"",
@@ -211,6 +241,8 @@ export default {
    f2:"",
    f3:"",
    f4:"",
+   themeid:"",
+   theme:[],
    shopinfo: {
       id : "",
       attributeExtensions:[],
@@ -228,6 +260,13 @@ export default {
     businessId:"",
     remark:""
   },
+    lookup:{
+    provinceId:"",
+    cityId:""
+  },
+   qu:[],
+   shiId:"",
+   ququ:'',
    dialogImageUrl: '',
    dialogVisible: false,
    fileList1: [],
@@ -298,6 +337,36 @@ export default {
         console.log(attributeExtensions);
         
  },
+     city(){
+      let that = this;
+      let city = that.shiId;
+      console.log(city,"获得的city");      
+      shopMany.selectCity(city).then( response=>{        
+        that.qu = response.data.data
+        console.log(that.qu,"返回的区!!!")
+      }
+      )
+    },
+    p(pro) {
+      var that = this
+        log(pro,'传过来的数据') 
+        that.lookup.provinceId = pro
+        if (pro == null) {
+          that.lookup.provinceId = ''
+        }
+    },
+    c(cityEx) {
+      var that = this
+        log(cityEx,'传过来的city') 
+        that.lookup.cityId = cityEx.citycode
+        that.shiId = cityEx.cityid
+        console.log(that.shiId,"wqerqwerqwerqweqweerqw");
+        
+        if (cityEx == null) {
+          that.lookup.cityId = ''
+        }
+        that.city();
+    },
     con(c1){
       const that = this
       that.pinpai.businessId = that.MessageId;
@@ -334,12 +403,16 @@ export default {
          fd.append("remark", info.remark)
           fd.append("token", token)
           fd.append('file', that.fileData)
+          fd.append('lng', info.longitude)
+           fd.append('lat', info.latitude)
+           fd.append('cityCode', that.ququ)
+          //  fd.append('themeid', that.themeid)
         shopMany.addShop(fd).then(response => {
            console.log(response.data, "返回数据");
           if (response.data.result == "0") {
             console.log("成功","%%%%%%");
-            console.log(response.data.data.merchantInformation.userId,"龙致远");
-            that.imageUrl = 'http://apitest.letterbook.cn/letter' + response.data.data.merchantInformation.headPortrait;
+            // console.log(response.data.data.merchantInformation.userId,"龙致远");
+            that.imageUrl = 'http://image.letterbook.cn/' + response.data.data.merchantInformation.headPortrait;
             console.log(that.imageUrl,"劳动改造");
             
             that.MessageId = response.data.data.id
@@ -351,6 +424,10 @@ export default {
         upfd.append("remark",info.remark)
         upfd.append("id",that.MessageId)
         upfd.append('file', that.fileData)
+        upfd.append('lng', info.longitude)
+        upfd.append('lat', info.latitude)
+        upfd.append('cityCode', that.ququ)
+        // upfd.append('themeid', that.themeid)
         shopMany.updateShop(upfd).then(response =>{
           console.log(response.data,"更新成功啦啦啦啦啦")
         })
@@ -388,7 +465,7 @@ export default {
       },
       //添加商家
       send(){
-        // let that = this
+        let that = this
         that.$refs.newupload.submit()
         // var obj = {
         //     id : that.MessageId,
@@ -441,37 +518,42 @@ export default {
           console.log(response,"token返回信息");
           if (response.data.result == "0") {
             that.MessageId = response.data.data.merchantInformation.id
+            localStorage.setItem("sid",that.MessageId)
+            console.log(that.MessageId,'*******************');
+            
             console.log(response.data.data);
             this.info.name = response.data.data.merchantInformation.name;
             this.info.remark = response.data.data.merchantInformation.remark;
+            this.info.longitude = response.data.data.merchantInformation.lng;
+            this.info.latitude = response.data.data.merchantInformation.lat;
             this.shopinfo.attributeExtensions = response.data.data.attributeExtensions;
             response.data.data.files1.forEach(e =>{
-                  e.imgUrl = 'http://apitest.letterbook.cn/letter' + e.imgUrl
+                  e.imgUrl = 'http://image.letterbook.cn/' + e.imgUrl
                   var url = e.imgUrl
                 console.log(e.imgUrl,"@1213131")
                 this.fileList1.push({url:url,id:e.id})
             }); 
             response.data.data.files2.forEach(e =>{
-                  e.imgUrl = 'http://apitest.letterbook.cn/letter' + e.imgUrl
+                  e.imgUrl = 'http://image.letterbook.cn/' + e.imgUrl
                   var url = e.imgUrl
                 console.log(e.imgUrl,"@1213131")
                 this.fileList2.push({url:url,id:e.id})
             });  
             response.data.data.files3.forEach(e =>{
-                  e.imgUrl = 'http://apitest.letterbook.cn/letter' + e.imgUrl
+                  e.imgUrl = 'http://image.letterbook.cn/' + e.imgUrl
                   var url = e.imgUrl
                 console.log(e.imgUrl,"@1213131")
                 this.fileList3.push({url:url,id:e.id})
             });  
             response.data.data.files4.forEach(e =>{
-                  e.imgUrl = 'http://apitest.letterbook.cn/letter' + e.imgUrl
+                  e.imgUrl = 'http://image.letterbook.cn/' + e.imgUrl
                   var url = e.imgUrl
                 console.log(e.imgUrl,"@1213131")
                 this.fileList4.push({url:url,id:e.id})
             });
             console.log(response.data.data.merchantInformation.headPortrait,"劳动改造111");
             
-            this.imageUrl = 'http://apitest.letterbook.cn/letter' + response.data.data.merchantInformation.headPortrait
+            this.imageUrl = 'http://image.letterbook.cn/' + response.data.data.merchantInformation.headPortrait
             response.data.data.largefieldAttributes.forEach( e=>{
               if(e.code == "brand_story"){
                 console.log(e.code,e.remark,"富文本富文本")
@@ -492,6 +574,25 @@ export default {
             }
 
         })
+        that.selectTheme();
+      },
+      selectTheme(){
+        
+          shopMany.ThemeList().then(response => {
+        // log(response.data, "数据列表");
+        // that.pages = response.data.data.total;
+        this.theme = response.data.data.list;
+        // log(response.data.data,'返回的主题列表####')
+        // for (let i = 0; i < themeNewList.length; i++) {
+          // var e = themeNewList[i];
+          // var key=e.createTime.substr(0,10);
+          // log(key,'****');
+          // var key = themeFilter.dateFilterex(e.createTime);
+          // log(key, "洗数据ing");
+          // Vue.set(e,'createTime', key)
+        // }
+        // that.tableData = themeNewList;
+      });
       },
       addinfo(){
         var that =  this;
@@ -549,6 +650,17 @@ export default {
           //     right: 120px;
           //     opacity: 0;
           // }
+          .cityse{
+            
+            margin-top: 20px;
+            // flex-direction: row;
+            
+            .many_choice{
+              display: inline;
+              width: 500px;
+              margin: 0;
+            }
+          }
            .avatar-uploader .el-upload {
             border: 1px dashed #d9d9d9;
             border-radius: 6px;

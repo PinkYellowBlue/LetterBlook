@@ -73,8 +73,15 @@ export default {
   name: 'tinymce',
   data () {
     return {
+      // props: {
+      //     MessageId: {
+      //       type: String,
+      //       required:  true,
+      //     }
+      // },
+      props: ["shitEx"],
       datadata:{
-        id:"39",
+        id:"",
         typeid:"8"
       },
       show:false,
@@ -90,11 +97,11 @@ export default {
       //     required: true
       //   }
       // },
-      imgUrlEx: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
+      // imgUrlEx: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
       tinymceHtml: '请输入内容',
       init: {
-        images_upload_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
-        upload_image_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
+        images_upload_url: 'http://cms.letterbook.cn/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
+        // upload_image_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
         language_url: '../../static/tinymce4.7.5/langs/zh_CN.js',
         language: 'zh_CN',
         skin_url: '../../static/tinymce4.7.5/skins/lightgray',
@@ -106,39 +113,50 @@ export default {
           'preview bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | undo redo | link unlink code imageupload image| removeformat',
         autosave_interval: "20s",
         image_advtab: true,
-        imageupload_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage', // 接收图片的后端地址
+        // imageupload_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage', // 接收图片的后端地址
         
         table_default_styles: {
             width: "100%",
             borderCollapse: "collapse"
         },
-  images_upload_handler:(blobInfo, success, failure) => {
-    let datadata = this.datadata;
-             let fd = new FormData()
-             console.log("$$$4");
-             fd.append("id",datadata.id);
-             fd.append("typeId",datadata.typeid);
-             fd.append("file",blobInfo.blob())
-            shopMany.handleImg(fd).then(res=>{
-              console.log(res);
-              res.data.data[0].imgUrl = 'http://apitest.letterbook.cn/letter' + res.data.data[0].imgUrl
-              success(res.data.data[0].imgUrl)
-              // success("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2171717409,2602158110&fm=26&gp=0.jpg");
-            })
-           }
+    images_upload_handler:(blobInfo, success, failure) => {
+      let datadata = this.datadata;
+              let fd = new FormData()
+              console.log("$$$4");
+              fd.append("id",datadata.id);
+              fd.append("typeId",datadata.typeid);
+              fd.append("file",blobInfo.blob())
+              shopMany.handleImg(fd).then(res=>{
+                console.log(res);
+                res.data.data[0].imgUrl = 'http://image.letterbook.cn/' + res.data.data[0].imgUrl
+                success(res.data.data[0].imgUrl)
+                // success("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2171717409,2602158110&fm=26&gp=0.jpg");
+              })
+            }
+        }
       }
-    }
-  },
+    },
   methods:{
       confirm(){
         let that = this
         console.log(that.tinymceHtml);
         var c1=that.tinymceHtml;
         that.$emit("cc",c1);
+        // this.initContent1()
+      },
+      initContent1(){
+        var that = this
+        // that.tinymceHtml = that.remark;
+        this.datadata.id = localStorage.getItem("sid")
+        // console.log(that.tinymceHtml,"符文恩额额违法地方撒发生大发");
+        
+        // that.datadata.id = that.MessageId;
+        console.log(this.datadata.id,'baba');
+        
       },
   },
   created(){
-    // this.initContent1()
+    this.initContent1()
   },
   mounted () {
     tinymce.init({})

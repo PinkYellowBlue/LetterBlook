@@ -34,9 +34,10 @@ export default {
   data () {
     return {
       datadata:{
-        id:"39",
-        typeid:"8"
+        id:"",
+        typeid:"9"
       },
+      tinymceHtml:"",
       props:['value'],
       show:false,
       imgurl:'',
@@ -54,7 +55,7 @@ export default {
       imgUrlEx: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
       
       init: {
-        images_upload_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
+        images_upload_url: 'http://cms.letterbook.cn/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
         // upload_image_url: 'http://apitest.letterbook.cn:8081/letter-cms/cms/merchantInformation/uploadMerchantInformationImage',
         language_url: '../../static/tinymce4.7.5/langs/zh_CN.js',
         language: 'zh_CN',
@@ -83,7 +84,7 @@ export default {
              fd.append("file",blobInfo.blob())
             shopMany.handleImg(fd).then(res=>{
               console.log(res);
-              res.data.data[0].imgUrl = 'http://apitest.letterbook.cn/letter' + res.data.data[0].imgUrl
+              res.data.data[0].imgUrl = 'http://image.letterbook.cn' + res.data.data[0].imgUrl
               success(res.data.data[0].imgUrl)
               // success("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2171717409,2602158110&fm=26&gp=0.jpg");
             })
@@ -100,16 +101,16 @@ export default {
       }
     }
   },
-  computed:{
-    tinymceHtml:{
-      get:function () {
-        return this.value;
-      },
-      set:function (value) {
-        this.$emit('input',value);
-      }
-    }
-  },
+  // computed:{
+  //   tinymceHtml:{
+  //     get:function () {
+  //       return this.value;
+  //     },
+  //     set:function (value) {
+  //       this.$emit('input',value);
+  //     }
+  //   }
+  // },
   methods:{
 //     tirggerFile : function (event) {
 //       const file = event.srcElement.files[0];
@@ -163,13 +164,9 @@ export default {
     //       window.tinymce.get(_this.tinymceHtml).insertContent(`<img class="wscnph" src="${v.url}" >`)
     //   } )
     // }
-      // initContent1(){
-      //   let that = this
-      //   let pinpai = that.pinpai
-      //   console.log(pinpai,"品牌品牌");
-        
-      //   that.tinymceHtml = pinpai
-      // },
+      initContent1(){
+       this.datadata.id = localStorage.getItem("sid")
+      },
       // initContent2(){
       //   let that = this
       //   let fuwu = that.fuwu
@@ -178,7 +175,7 @@ export default {
       
   },
   created(){
-    // this.initContent1()
+    this.initContent1()
   },
   mounted () {
     tinymce.init({})

@@ -17,6 +17,14 @@ export function addShop(fd) {
   })
   
 }
+//查询主题
+export function ThemeList(themeName) {
+  return request({
+    url: 'cms/comprehensive/selectTheme',
+    method: 'post',
+    data: Qs.stringify(themeName)
+  })
+}
 //判断是否存在商家信息
 export function hasInfo(token) {
   return request({
@@ -70,6 +78,17 @@ export function updateShop(upfd) {
     url: 'cms/merchantInformation/updateMerchantInformation',
     method: 'post',
     data:  upfd
+    
+  })
+}
+
+export function selectCity(citycode) {
+  return request({
+    url: 'cms/area/selectAreaCity',
+    method: 'post',
+    data:  Qs.stringify({
+      "areaId": citycode
+    })
     
   })
 }

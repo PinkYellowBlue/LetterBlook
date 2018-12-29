@@ -575,7 +575,7 @@ export const asyncRouterMap = [{
     meta: {
       title: '文章管理',
       icon: 'article1',
-      // roles: ['statisticsCode']
+      roles: ['admin']
     },
     children: [
       {
@@ -585,7 +585,7 @@ export const asyncRouterMap = [{
         meta: {
           title: '文章列表',
           icon: 'artlist',
-          // roles: ['lostPeopleCode']
+          roles: ['admin']
         }
       },
       {
@@ -620,7 +620,8 @@ export const asyncRouterMap = [{
           title: '商家列表',
           icon: 'shopde',
           // roles: ['newPeopleCode']
-        }
+        },
+        hidden:true,
       },
       {
         path: '/shopdetails',

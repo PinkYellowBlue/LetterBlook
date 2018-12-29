@@ -39,7 +39,8 @@ export default {
       province: [],
       provinceo: "",
       cityList: [],
-      city: ""
+      city: "",
+      cityid:""
     };
   },
   created: function() {
@@ -82,13 +83,23 @@ export default {
     },
     //选择城市
     cityMethod() {
-      var that = this;
+      var that = this;             
+       var cityid = that.cityid;
+        // console.log(citycode,"策划格式vdaim112");
       log(that.city, "城市选择");
        if (that.city) {
               var cityEx = that.city
+         that.cityList.forEach(e=>{
+           if(e.areaCode == cityEx){
+             cityid = e.areaId;
+             console.log(cityid,"策划格式vdaim");
+             
+           }
+         })
+               
           }
           if (cityEx) {
-              that.$emit('cityer',cityEx)
+              that.$emit('cityer',{citycode:cityEx,cityid:cityid})
           } else {
               var cityEx = null
                that.$emit('cityer',cityEx)
