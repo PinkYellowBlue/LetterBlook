@@ -24,7 +24,7 @@
                 <el-table-column
                     prop="remark"
                     label="信息内容"
-                    width="200">
+                    width="300">
                 </el-table-column>
                 </el-table>
          </div>
@@ -177,7 +177,7 @@
                  this.info.shopRemark = response.data.data.merchantInformation.remark;
                  this.info.shopDetails = response.data.data.attributeExtensions;
                 response.data.data.files1.forEach(e =>{
-                  e.imgUrl = 'http://apitest.letterbook.cn/letter' + e.imgUrl
+                  e.imgUrl = 'http://cms.letterbook.cn/letter-cms/' + e.imgUrl
                 //   var url = e.imgUrl
                 console.log(e.imgUrl,"@1213131")
                 this.info.files1 =  response.data.data.files1
@@ -185,26 +185,26 @@
                 
                 }); 
                 response.data.data.files2.forEach(e =>{
-                        e.imgUrl = 'http://apitest.letterbook.cn/letter' + e.imgUrl
+                        e.imgUrl = 'http://cms.letterbook.cn/letter-cms/' + e.imgUrl
                     //   var url = e.imgUrl
                     console.log(e.imgUrl,"@1213131")
                    this.info.files2 =  response.data.data.files2
                 });  
                 response.data.data.files3.forEach(e =>{
-                    e.imgUrl = 'http://apitest.letterbook.cn/letter' + e.imgUrl
+                    e.imgUrl = 'http://cms.letterbook.cn/letter-cms/' + e.imgUrl
                     //   var url = e.imgUrl
                     console.log(e.imgUrl,"@1213131")
                     this.info.files3 =  response.data.data.files3
                 });  
                 response.data.data.files4.forEach(e =>{
-                    e.imgUrl = 'http://apitest.letterbook.cn/letter' + e.imgUrl
+                    e.imgUrl = 'http://cms.letterbook.cn/letter-cms/' + e.imgUrl
                     //   var url = e.imgUrl
                     console.log(e.imgUrl,"@1213131")
                    this.info.files4 =  response.data.data.files4
                 });
                 console.log(response.data.data.merchantInformation.headPortrait,"劳动改造111");
                 
-                this.info.shopHead = 'http://apitest.letterbook.cn/letter' + response.data.data.merchantInformation.headPortrait
+                this.info.shopHead = 'http://cms.letterbook.cn/letter-cms/' + response.data.data.merchantInformation.headPortrait
                 response.data.data.largefieldAttributes.forEach( e=>{
                 if(e.code == "brand_story"){
                     // console.log(e.code,e.remark,"富文本富文本")
