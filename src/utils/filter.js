@@ -159,6 +159,7 @@ export function roleFilterex(value) {
     "综合管理": "comprehensiveCode",
     "操作记录": "operationCode",
     "主题管理": "themeCode",
+    "预约列表": "subscribeList"
   };
   for (let i = 0; i < value.length; i++) {
     let e = value[i];

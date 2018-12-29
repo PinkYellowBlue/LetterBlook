@@ -16,7 +16,7 @@
           <div class="business_top_right">
             <div class="business_top_title">用户照片:</div>
             <div class="business_top_img">
-              <img src="static/fiveimg/le.png" alt>
+              <img :src="userPhoto" alt>
             </div>
           </div>
         </div>
@@ -156,6 +156,7 @@ export default {
   data() {
     return {
       data: {},
+      userPhoto: "",
       dialogVisible: false,
       titeleC: true,
       examine: [
@@ -261,6 +262,8 @@ export default {
       subscribe.cardDetails(a).then(response => {
         log(response.data, "ssss");
         var data = response.data.data;
+        that.userPhoto =  'http://image.letterbook.cn' + data.photo
+        log(that.userPhoto,'用户图片')
         var sex = datadeFilter.sexFilterex(data.sex);
         var userSex = datadeFilter.sexFilterex(data.userSex);
         var cost = datadeFilter.fedFilter(data.cost);

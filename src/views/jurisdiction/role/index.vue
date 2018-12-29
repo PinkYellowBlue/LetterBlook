@@ -213,6 +213,9 @@
             <div>
               <el-checkbox label="主题管理"></el-checkbox>
             </div>
+            <div>
+              <el-checkbox label="预约列表"></el-checkbox>
+            </div>
 
           </div>
         </el-checkbox-group>
