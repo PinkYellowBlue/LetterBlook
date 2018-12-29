@@ -32,16 +32,16 @@
             <div class="photo">
                 <div class="block">
                     <span class="demonstration">商家门面照片：</span>
-                    <el-carousel height="250px" :interval="5000"> 
-                    <el-carousel-item v-for="item in info.files1" :key="item">
+                    <el-carousel height="250px" :interval="5000" indicator-position="none"> 
+                    <el-carousel-item v-for="item in info.files1" :key="item.id">
                         <img :src="item.imgUrl" alt="">
                     </el-carousel-item>
                     </el-carousel>
                 </div>
                 <div class="block">
                     <span class="demonstration">商家大厅环境：</span>
-                    <el-carousel height="250px" :interval="5000">
-                    <el-carousel-item v-for="item in info.files2" :key="item">
+                    <el-carousel height="250px" :interval="5000" indicator-position="none">
+                    <el-carousel-item v-for="item in info.files2" :key="item.id">
                         <img :src="item.imgUrl" alt="">
                     </el-carousel-item>
                     </el-carousel>
@@ -50,16 +50,16 @@
             <div class="photo">
                 <div class="block">
                     <span class="demonstration">商家产品照片：</span>
-                    <el-carousel height="250px"  :interval="5000">
-                    <el-carousel-item v-for="item in info.files3" :key="item">
+                    <el-carousel height="250px"  :interval="5000" indicator-position="none">
+                    <el-carousel-item v-for="item in info.files3" :key="item.id">
                         <img :src="item.imgUrl" alt="">
                     </el-carousel-item>
                     </el-carousel>
                 </div>
                 <div class="block">
                     <span class="demonstration">商家室内照片：</span>
-                    <el-carousel height="250px" :interval="5000">
-                    <el-carousel-item v-for="item in info.files4" :key="item">
+                    <el-carousel height="250px" :interval="5000" indicator-position="none">
+                    <el-carousel-item v-for="item in info.files4" :key="item.id">
                         <img :src="item.imgUrl" alt="">
                     </el-carousel-item>
                     </el-carousel>
@@ -100,7 +100,7 @@
              </el-select>
             </div>
             <el-button type="primary" @click="handle" style="margin-right:10px">提交</el-button>
-            <router-link :to="'/shoplist'"><el-button type="primary" @click="back">返回列表</el-button></router-link>
+            <router-link :to="'/shoplist'"><el-button type="primary">返回列表</el-button></router-link>
          </div>
      </div>
     </template>
@@ -177,7 +177,7 @@
                  this.info.shopRemark = response.data.data.merchantInformation.remark;
                  this.info.shopDetails = response.data.data.attributeExtensions;
                 response.data.data.files1.forEach(e =>{
-                  e.imgUrl = 'http://cms.letterbook.cn/letter-cms/' + e.imgUrl
+                  e.imgUrl = 'http://image.letterbook.cn' + e.imgUrl
                 //   var url = e.imgUrl
                 console.log(e.imgUrl,"@1213131")
                 this.info.files1 =  response.data.data.files1
@@ -185,26 +185,26 @@
                 
                 }); 
                 response.data.data.files2.forEach(e =>{
-                        e.imgUrl = 'http://cms.letterbook.cn/letter-cms/' + e.imgUrl
+                        e.imgUrl = 'http://image.letterbook.cn' + e.imgUrl
                     //   var url = e.imgUrl
                     console.log(e.imgUrl,"@1213131")
                    this.info.files2 =  response.data.data.files2
                 });  
                 response.data.data.files3.forEach(e =>{
-                    e.imgUrl = 'http://cms.letterbook.cn/letter-cms/' + e.imgUrl
+                    e.imgUrl = 'http://image.letterbook.cn' + e.imgUrl
                     //   var url = e.imgUrl
                     console.log(e.imgUrl,"@1213131")
                     this.info.files3 =  response.data.data.files3
                 });  
                 response.data.data.files4.forEach(e =>{
-                    e.imgUrl = 'http://cms.letterbook.cn/letter-cms/' + e.imgUrl
+                    e.imgUrl = 'http://image.letterbook.cn' + e.imgUrl
                     //   var url = e.imgUrl
                     console.log(e.imgUrl,"@1213131")
                    this.info.files4 =  response.data.data.files4
                 });
                 console.log(response.data.data.merchantInformation.headPortrait,"劳动改造111");
                 
-                this.info.shopHead = 'http://cms.letterbook.cn/letter-cms/' + response.data.data.merchantInformation.headPortrait
+                this.info.shopHead = 'http://image.letterbook.cn' + response.data.data.merchantInformation.headPortrait
                 response.data.data.largefieldAttributes.forEach( e=>{
                 if(e.code == "brand_story"){
                     // console.log(e.code,e.remark,"富文本富文本")
@@ -281,7 +281,7 @@
                 margin-bottom: 60px;
             }
             .shop_info{
-                width: 600px;
+                width: 800px;
                 display: flex;
                 // justify-content: center;
                 align-items: center;
@@ -302,7 +302,8 @@
                     display: flex;
                     .block{
                         width: 250px;
-                        margin-right: 250px;                     
+                        margin-right: 250px;
+                                           
                         .demonstration{
                             margin-right:10px;
                            padding-bottom: 20px;
