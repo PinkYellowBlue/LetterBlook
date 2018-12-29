@@ -1,4 +1,4 @@
-import Vue from 'vue'
+﻿import Vue from 'vue'
 import Router from 'vue-router'
 
 // in development-env not use lazy-loading, because lazy-loading too many pages will cause webpack hot update too slow. so only in production use lazy-loading;
@@ -31,24 +31,16 @@ export const constantRouterMap = [{
     component: () => import('@/views/404'),
     hidden: true
   },
-// @ / views / table / index
+
   {
-    // path: '/',
-    // component: Layout,
-    // redirect: '/dashboard',
-    // name: '首页',
-    // hidden: true,
-    // children: [{
-    //     path: 'dashboard',
-    //     component: () => import('@/views/dashboard/index')
     path: '/',
-      component: Layout,
-      redirect: '/dashboard',
-      name: '首页',
-      hidden: true,
-      children: [{
-          path: 'dashboard',
-          component: () => import('@/views/table/index')
+    component: Layout,
+    redirect: '/dashboard',
+    name: '首页',
+    hidden: true,
+    children: [{
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index')
       },
       {
         path: '/userDataails',
@@ -98,17 +90,16 @@ export const asyncRouterMap = [{
       icon: 'user',
       roles: ['userCode']
     },
-    children: [
-      // {
-      //   path: '/table',
-      //   name: 'Table',
-      //   component: () => import('@/views/table/index'),
-      //   meta: {
-      //     title: '用户列表',
-      //     icon: 'table',
-      //     roles: ['userListCode']
-      //   }
-      // },
+    children: [{
+        path: '/table',
+        name: 'Table',
+        component: () => import('@/views/table/index'),
+        meta: {
+          title: '用户列表',
+          icon: 'table',
+          roles: ['userListCode']
+        }
+      },
       //  {
       //    path: '/userDataails',
       //    name: 'userDataails',
@@ -334,21 +325,102 @@ export const asyncRouterMap = [{
         meta: {
           title: '主题管理',
           icon: 'theme',
-          roles: ['admin']
+          // roles: ['admin']
         }
       }
+
+    ]
+  },
+  { 
+		path: '/guide',
+    component: Layout,
+    redirect: '/guidere',
+    name: 'guidere',
+    meta: {
+      title: '引导管理',
+      icon: 'yin',
+    },
+    children: [
+      {
+        path: '/guidelist',
+        name: 'guidelist',
+        component: () =>
+          import('@/views/guide/guidelist/index'),
+        meta: {
+          title: '引导列表',
+          icon: 'yinlist',
+          // roles: ['admin']
+        }
+      },
+    {
+      path: '/guidere',
+      name: 'guidere',
+      component: () =>
+        import('@/views/guide/guideadd/index'),
+      meta: {
+        title: '添加引导',
+        icon: 'yin',
+        // roles: ['admin']
+      }
+    },
+    {
+      path: '/guidedetails/:id(\\d+)',
+      name: 'guidedetails',
+      component: () => import('@/views/guide/guidedetails/index'),
+      meta: {
+        title: '引导详情',
+        icon: 'shopde',
+        noCache: true
+      },
+      hidden: true
+    },     
+  ]
+
+  },
+  { 
+		path: '/shop',
+    component: Layout,
+    redirect: '/shoplist',
+    name: 'shoplist',
+    meta: {
+      title: '商家管理',
+      icon: 'shopde',
+      // roles: ['statisticsCode']
+    },
+    children: [
+      {
+        path: '/shoplist',
+				name: 'shoplist',
+        component: () => import('@/views/shop/shoplist/index'),
+        meta: {
+          title: '商家列表',
+          icon: 'shopde',
+          // roles: ['lostPeopleCode']
+        }
+      },
+      {
+        path: '/shopdetails/:id(\\d+)',
+				name: 'shopdetails',
+        component: () => import('@/views/shop/shopdetails/index'),
+        meta: {
+          title: '商家详情',
+          icon: 'shopde',
+          noCache: true
+        },
+        hidden: true
+      },
 
     ]
   },
   {
     path: '/merchant',
     component: Layout,
-    redirect: '/dataList',
+    redirect: '/operating',
     name: 'merchant',
     meta: {
       title: '预约审核',
       icon: 'syn',
-      roles: ['subscribeList']
+      roles: ['merchantt']
     },
     children: [{
         path: '/dataList',
@@ -358,25 +430,12 @@ export const asyncRouterMap = [{
         meta: {
           title: '预约列表',
           icon: 'backstage',
-          roles: ['subscribeList']
+          roles: ['admin']
         }
-
-      },
-      // {
-      //   path: '/theme',
-      //   name: 'Theme',
-      //   component: () =>
-      //     import('@/views/manage/theme/index'),
-      //   meta: {
-      //     title: '主题管理',
-      //     icon: 'theme',
-      //     roles: ['admin']
-      //   }
-      // }
-
+      },    
     ]
   },
-
+ 
   {
     path: '*',
     redirect: '/404',

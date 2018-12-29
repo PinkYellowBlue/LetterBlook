@@ -1,4 +1,4 @@
-//测试图片
+﻿//测试图片
 export function testImg(n) {
   var b = "http://apitest.letterbook.cn/letter" + n
   return b
@@ -193,6 +193,44 @@ export function sexFilterex(value) {
     "0": "不限制",
     "1": "女",
     "2": "男",
+  };
+  var newValue = dataKey[value];
+  return newValue;
+}
+//审核状态   
+export function handleShop(value) {
+  var dataKey = {
+    "0": "申请",
+    "1": "驳回",
+    "2": "上架",
+    "3": "封停"
+  };
+  var newValue = dataKey[value];
+  return newValue;
+}
+//时间转换shop
+export function dateFilterShop(date) {
+  var e = date;
+  var data = new Date(e);
+  var newDate = data.toLocaleDateString().replace(/\//g, "-") + " " + data.toTimeString().substr(0, 8);
+  newDate = newDate.substr(0,10);
+  return newDate
+}
+
+//审核状态   
+export function handleGuide(value) {
+  var dataKey = {
+    "0": "未查看",
+    "1": "已查看"
+  };
+  var newValue = dataKey[value];
+  return newValue;
+}
+//审核状态   
+export function handleGuideSour(value) {
+  var dataKey = {
+    "1": "前台",
+    "2": "后台"
   };
   var newValue = dataKey[value];
   return newValue;
