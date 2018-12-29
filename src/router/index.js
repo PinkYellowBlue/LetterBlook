@@ -609,7 +609,7 @@ export const asyncRouterMap = [{
     meta: {
       title: '商家管理',
       icon: 'shop',
-      // roles: ['statisticsCode']
+      roles: ['merchantInformationMessageCode']
     },
     children: [
       {
@@ -617,11 +617,11 @@ export const asyncRouterMap = [{
 				name: 'shoplist',
         component: () => import('@/views/shop/shoplist/index'),
         meta: {
-          title: '商家列表',
+          title: '消息列表',
           icon: 'shopde',
-          // roles: ['newPeopleCode']
+          roles: ['merchantInformationMessageCode']
         },
-        hidden:true,
+        // hidden:true,
       },
       {
         path: '/shopdetails',
@@ -630,7 +630,7 @@ export const asyncRouterMap = [{
         meta: {
           title: '商家详情',
           icon: 'shopde',
-          // roles: ['newPeopleCode']
+          roles: ['selectMerchantInformationDetailsCode']
         }
       },
 
