@@ -215,3 +215,22 @@ export function dateFilterShop(date) {
   newDate = newDate.substr(0,10);
   return newDate
 }
+
+//审核状态   
+export function handleGuide(value) {
+  var dataKey = {
+    "0": "未查看",
+    "1": "已查看"
+  };
+  var newValue = dataKey[value];
+  return newValue;
+}
+//审核状态   
+export function handleGuideSour(value) {
+  var dataKey = {
+    "1": "前台",
+    "2": "后台"
+  };
+  var newValue = dataKey[value];
+  return newValue;
+}
