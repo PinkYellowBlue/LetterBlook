@@ -39,8 +39,12 @@ export default {
       province: [],
       provinceo: "",
       cityList: [],
+<<<<<<< HEAD
       city: "",
       cityid:""
+=======
+      city: ""
+>>>>>>> e7dfd5fbfee084b494385b4f38e04919ef8882d3
     };
   },
   created: function() {
@@ -83,6 +87,7 @@ export default {
     },
     //选择城市
     cityMethod() {
+<<<<<<< HEAD
       var that = this;             
        var cityid = that.cityid;
         // console.log(citycode,"策划格式vdaim112");
@@ -100,6 +105,15 @@ export default {
           }
           if (cityEx) {
               that.$emit('cityer',{citycode:cityEx,cityid:cityid})
+=======
+      var that = this;
+      log(that.city, "城市选择");
+       if (that.city) {
+              var cityEx = that.city
+          }
+          if (cityEx) {
+              that.$emit('cityer',cityEx)
+>>>>>>> e7dfd5fbfee084b494385b4f38e04919ef8882d3
           } else {
               var cityEx = null
                that.$emit('cityer',cityEx)

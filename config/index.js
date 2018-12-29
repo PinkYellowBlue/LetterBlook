@@ -11,8 +11,13 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {},
 
+<<<<<<< HEAD
     // Various Dev Server settings localhost192.168.1.89
     host: 'localhost', // can be overwritten by process.env.HOST
+=======
+    // Various Dev Server settings
+    host: '192.168.1.89', // can be overwritten by process.env.HOST
+>>>>>>> e7dfd5fbfee084b494385b4f38e04919ef8882d3
     port: 9528, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
@@ -57,7 +62,7 @@ module.exports = {
      * then assetsPublicPath should be set to "/bar/".
      * In most cases please use '/' !!!
      */
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

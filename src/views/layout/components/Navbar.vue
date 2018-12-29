@@ -1,7 +1,7 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
      <div class="header_many">
-       <div class="header_many_flex">
+       <!-- <div class="header_many_flex">
         <div class="header_many_message_button">
           <el-button type="primary" size="small">20条未读消息</el-button>
         </div>
@@ -13,7 +13,7 @@
           </div>
            <div class="header_many_user_name">超级管理员</div>
         </div>
-        </div>
+        </div> -->
       </div>
     <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
     <breadcrumb />
