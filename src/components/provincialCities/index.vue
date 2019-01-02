@@ -88,7 +88,8 @@ export default {
               var cityEx = that.city
           }
           if (cityEx) {
-              that.$emit('cityer',cityEx)
+              // that.$emit('cityer',cityEx)
+              that.$emit('cityer',{citycode:cityEx,cityid:cityid})
           } else {
               var cityEx = null
                that.$emit('cityer',cityEx)
